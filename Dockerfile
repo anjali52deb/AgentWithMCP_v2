@@ -1,38 +1,24 @@
-# Use slim image for smaller size
-FROM python:3.11-slim
+# ✅ Use official Python 3.13 image
+FROM python:3.13.2-slim
 
-# -----------------------------
-# 1. System-level dependencies
-# -----------------------------
-RUN apt-get update && apt-get install -y ffmpeg
-
-# -----------------------------
-# 2. Set work directory
-# -----------------------------
+# 🧱 Set working directory
 WORKDIR /app
 
-# -----------------------------
-# 3. Install Python packages
-# -----------------------------
-COPY requirements.txt .
-RUN pip install --upgrade pip
-# RUN pip install --no-cache-dir -r requirements.txt
-# RUN pip install --no-cache-dir --prefer-binary -r requirements.txt
-# Install Python packages (CPU-only PyTorch)
-RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt
-
-# -----------------------------
-# 4. Copy application code
-# -----------------------------
+# 🧱 Copy everything
 COPY . .
 
-# -----------------------------
-# 5. Pre-download Whisper model
-# -----------------------------
-RUN python -c "import whisper; whisper.load_model('base')"
-# RUN python -c "import whisper; whisper.load_model('medium')"
+# 📦 Install system dependencies
+RUN apt-get update && apt-get install -y ffmpeg && apt-get clean
 
-# -----------------------------
-# 6. Start FastAPI server
-# -----------------------------
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
+# 📦 Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir -r requirements.txt
+
+# 🌐 Expose port (use 10000 as per your setup)
+EXPOSE 10000
+
+# ✅ Automatically detect PORT from environment (Render) or default to 10000
+ENV PORT=10000
+
+# 🚀 Start FastAPI with uvicorn
+CMD ["python", "-c", "import os; import uvicorn; uvicorn.run('main:app', host='0.0.0.0', port=int(os.getenv('PORT', 10000)), log_level='debug')"]

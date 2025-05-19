@@ -41,28 +41,34 @@ def version():
 
 ### ---- for testing ----
 if __name__ == "__main__":
-    ##-------------------------------------------------------
-    from models.llm import invoke_gtp, invoke_gemini
-    ##-------------------------------------------------------
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=10000)
 
-    # Local test block
-    mainPrompt = "what special about Sunday as day?"
-    mainSession = "session007"
-    mainModel = 'gemini'
 
-    class DummyRequest:
-        session_id: str = mainSession
-        query: str = mainPrompt
-        model: str = mainModel
 
-    dummy_request = DummyRequest()
-    print("Gemini test:", invoke_gemini(dummy_request))
-    # dummy_request.model = "gpt"
-    # print("GPT test:", invoke_gtp(dummy_request))
+# if __name__ == "__main__":
+#     ##-------------------------------------------------------
+#     from models.llm import invoke_gtp, invoke_gemini
+#     ##-------------------------------------------------------
 
-    # To run the API server, uncomment below:
-    # import uvicorn
-    # uvicorn.run(app, host="0.0.0.0", port=8000)
+#     # Local test block
+#     mainPrompt = "what special about Sunday as day?"
+#     mainSession = "session007"
+#     mainModel = 'gemini'
+
+#     class DummyRequest:
+#         session_id: str = mainSession
+#         query: str = mainPrompt
+#         model: str = mainModel
+
+#     dummy_request = DummyRequest()
+#     print("Gemini test:", invoke_gemini(dummy_request))
+#     # dummy_request.model = "gpt"
+#     # print("GPT test:", invoke_gtp(dummy_request))
+
+#     # To run the API server, uncomment below:
+#     # import uvicorn
+#     # uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
 ######################################################################
