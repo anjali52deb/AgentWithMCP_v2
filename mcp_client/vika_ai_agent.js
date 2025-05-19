@@ -169,7 +169,7 @@ async function sendMessage() {
   }
 
   try {
-    const response = await fetch("https://agentwithmcp.onrender.com/agent/message", {
+    const response = await fetch("https://app-39lg.onrender.com/agent/message", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
