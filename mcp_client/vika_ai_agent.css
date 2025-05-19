@@ -20,8 +20,8 @@ body {
   position: absolute;
   top: 16px;
   z-index: 20;
-  background-color: #f9fafb;
-  border: 1px solid #ccc;
+  background-color: #ffffff;
+  /* border: 1px solid #ccc; */
   border-radius: 4px;
   padding: 2px 4px;
   font-size: 12px;
@@ -38,7 +38,7 @@ body {
 }
 #rightToggleBtn {
   /* right: 250px; */
-  right: 18%;        
+  right: 18%;
 }
 .left-collapsed {
   left: 0 !important;
@@ -153,7 +153,7 @@ body {
   background-color: #ffffff;
   border-style: dashed;
   /* border: gray; */
-  color:  #17bcfe;; /* idle color */
+  color:  #17bcfe; /* idle color */
   display: flex;
   align-items: center;
   justify-content: center;

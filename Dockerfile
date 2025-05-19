@@ -4,10 +4,10 @@ FROM python:3.13.2-slim
 # Set working directory
 WORKDIR /app
 
-# Copy all files
+# Copy all source files
 COPY . .
 
-# 🔧 Install required system dependencies
+# 🧱 Install system-level dependencies
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     git \
@@ -15,20 +15,21 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     && apt-get clean
 
-# 🐍 Upgrade pip and install Python deps (except Whisper)
+# ✅ Install pip dependencies (except whisper and torch)
 RUN pip install --no-cache-dir --upgrade pip \
  && pip install --no-cache-dir -r requirements.txt
 
-# 🦀 Install Rust (required for Whisper build)
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
- && export PATH="$HOME/.cargo/bin:$PATH" \
- && pip install --no-cache-dir git+https://github.com/openai/whisper.git
+# ✅ Install CPU-only PyTorch explicitly (before whisper)
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-# 🌐 Expose the app port
+# ✅ Install Whisper from GitHub (latest version)
+RUN pip install --no-cache-dir git+https://github.com/openai/whisper.git
+
+# 🔓 Expose application port
 EXPOSE 10000
 
-# Set environment variable for Render compatibility
+# 🌐 Support Render or default local port
 ENV PORT=10000
 
-# 🏁 Run the FastAPI app using uvicorn
+# 🏁 Run FastAPI using uvicorn
 CMD ["python", "-c", "import os; import uvicorn; uvicorn.run('main:app', host='0.0.0.0', port=int(os.getenv('PORT', 10000)), log_level='debug')"]

@@ -273,14 +273,14 @@ function setMsgTick(div, status) {
 // SVGs as strings for easy swapping
 const leftArrowSVG = `
   <svg width="24" height="24" viewBox="0 0 32 32">
-    <circle cx="16" cy="16" r="15" stroke="grey" stroke-width="2" fill="none"/>
-    <polyline points="20,10 12,16 20,22" fill="none" stroke="grey" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="16" cy="16" r="15" stroke="#17b3f0" stroke-width="2" fill="none"/>
+    <polyline points="20,10 12,16 20,22" fill="none" stroke="#17b3f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 `;
 const rightArrowSVG = `
   <svg width="24" height="24" viewBox="0 0 32 32">
-    <circle cx="16" cy="16" r="15" stroke="grey" stroke-width="2" fill="none"/>
-    <polyline points="12,10 20,16 12,22" fill="none" stroke="grey" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="16" cy="16" r="15" stroke="#17b3f0" stroke-width="2" fill="none"/>
+    <polyline points="12,10 20,16 12,22" fill="none" stroke="#17b3f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 `;
 // Track collapsed state for each sidebar
