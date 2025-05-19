@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signing you in...</title>
+    <meta charset="UTF-8">
+</head>
+<body style="background-color:rgb(69, 44, 198);">
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; color: #fff; text-align: center;">
+        <h2>Signing you in...</h2>
+        <h3>Please wait for server wake up... this may take 50 to 100 seconds depending upon server capacity</h3>
+        <h3>We are currently under Free Subscription for Hobby Project</h3>    
+    </div>
+    <script>
+        // Guard to prevent double execution
+        // let profileFetched = true;
+
+        // Helper: Parse URL fragment params
+        function parseFragment() {
+            const params = {};
+            window.location.hash.substring(1).split('&').forEach(pair => {
+                const [key, value] = pair.split('=');
+                params[key] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        // Extract tokens
+        const tokens = parseFragment();
+        const accessToken = tokens['access_token'];
+        const refreshToken = tokens['refresh_token'];
+        const expiresIn = tokens['expires_in'];
+        const providerToken = tokens['provider_token'];
+
+        // Show a popup with token values for validation
+        // alert(
+        //     "Access Token: " + accessToken + "\n" +
+        //     "Refresh Token: " + refreshToken + "\n" +
+        //     "Expires In: " + expiresIn + "\n" +
+        //     "Provider Token: " + providerToken
+        // );
+
+        // Save tokens to localStorage for vika_ai_agent.html
+        const authData = { accessToken, refreshToken, expiresIn, providerToken };
+        localStorage.setItem('authData', JSON.stringify(authData));
+        console.log("Tokens saved to localStorage:", authData);
+
+        // ✅ Clear token from URL to avoid leakage
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+        // Proceed only if access token exists
+        if (!accessToken) {
+            alert("No access token found. Redirecting to LoginPage...");
+            window.location.href = "LoginPage.html";
+        } else {
+            fetchUserProfile();
+        }
+
+        // Fetch user profile from Supabase
+        async function fetchUserProfile() {
+            // if (profileFetched) return;
+            // profileFetched = true;
+            try {
+                console.log("Access Token:", accessToken);
+
+                const SUPABASE_URL = 'https://hvqijjmhhhukoarccqhh.supabase.co'; 
+                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cWlqam1oaGh1a29hcmNjcWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMwNTUzNDAsImV4cCI6MjA1ODYzMTM0MH0.xnxaZ7o3eAPQYSi5yJ5Dhvtsr7GlEITuARc_WPkhmY8';
+
+                const response = await fetch("https://hvqijjmhhhukoarccqhh.supabase.co/auth/v1/user", {
+                    headers: {
+                        "Authorization": "Bearer " + accessToken,
+                        "apikey": SUPABASE_ANON_KEY
+                    }
+                });
+
+                console.log("User profile fetch response 'function fetchUserProfile()':", response);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Error body:", errorText);
+                    throw new Error("Failed to fetch user profile 'function fetchUserProfile()'. Status: " + response.status + " - " + errorText);
+                }
+
+                const userInfo = await response.json();
+                console.log("User info received:", userInfo);
+
+                const userPayload = {
+                    email: userInfo.email,
+                    full_name: userInfo.user_metadata?.full_name || "",
+                    provider: userInfo.app_metadata?.provider || "",
+                    avatar_url: userInfo.user_metadata?.avatar_url || ""
+                };
+
+                // Simple popup to validate userPayload values
+                // alert(
+                //     "Email: " + userPayload.email + "\n" +
+                //     "Full Name: " + userPayload.full_name + "\n" +
+                //     "Provider: " + userPayload.provider + "\n" +
+                //     "Avatar URL: " + userPayload.avatar_url
+                // );
+
+                // alert("Email: " + userInfo.email);
+                if (userInfo.email != 'anjali52debnath@gmail.com') {
+                    alert("Sorry. Right Now This Application Only Available For Restricted Users.\nSoon We Will Come For You As Well.\nThank You!");
+
+                    window.location.href = "https://ai.story360degree.com/index.html";
+                }
+
+                localStorage.setItem('userInfo', JSON.stringify(userPayload));
+
+                // Alert checkpoint (for debug only)
+                // alert("Login Successful! 'function fetchUserProfile()'\n" + JSON.stringify(userPayload, null, 2));
+
+                // Send to backend (non-blocking)
+                await trackUser(userPayload);
+
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+                alert("Error fetching user profile. You are in 'function fetchUserProfile()'. Redirecting to login.\n" + error);
+                window.location.href = "LoginPage.html";
+            }
+        }
+
+        // Backend call (non-blocking and no waiting)
+        async function trackUser(userPayload) {
+            try {
+                const response = await fetch("https://agentwithmcp.onrender.com/auth/track", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + accessToken
+                    },
+                    body: JSON.stringify(userPayload)
+                });
+                const result = await response.json();
+                console.log("Track user response:", result);
+
+                // (for debug only) 
+                // alert("your are in 'function trackUser() - try block'")
+            } catch (err) {
+                console.error("Track user failed:", err);
+                
+                // (for debug only) 
+                // alert("your are in 'function trackUser() - catch block'")
+                
+            } finally {
+                // Redirect irrespective of trackUser result
+                // (for debug only) 
+                // alert("your are in 'function trackUser() - finally block'")                
+                window.location.href = "vika_ai_agent.html";
+            }
+        }
+    </script>
+</body>
+</html>

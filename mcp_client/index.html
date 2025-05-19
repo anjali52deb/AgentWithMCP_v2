@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vika AI - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+        font-family: 'Source Sans Pro', 'Montserrat', sans-serif;
+        font-weight: 700;
+        color: #333;
+        background-color: #eaeaea;
+        margin: 0;
+        padding: 0;
+    }
+    h1, h2, h3, h4, h5 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        margin-top: 0;
+    }
+    p, a, li, span, input, button {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+    }
+    header {
+      background-color: #ffffff;
+      padding: 10px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.2rem;
+      color: #575757;
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      height: 28px;
+      margin-right: 10px;
+    }
+    nav a {
+      margin-left: 20px;
+      font-weight:600;      
+      text-decoration: none;
+      text-rendering:auto;
+      color: #575757;
+
+    }
+    .horizontal-border {
+      background-color: #17bcfe;
+      /* border-bottom: 1px solid #ffffff; */
+      padding: 2px 2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }    
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      gap: 40px;
+    }
+    .hero img {
+      width: 450px;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .hero-text {
+      font-weight: bold;
+      max-width: 600px;
+    }
+    .hero-text h1 {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+    .hero-text p {
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        padding: 40px 20px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <div class="flex flex-col items-center justify-center mx-4 font-bold">
+            <span class="flex items-center space-x-2">
+              <img id="agentPicture" src="" alt="Agent Picture" style="display:none; border-radius: 6px; object-fit: contain; max-width: 100%; max-height: 44px; " />
+            </span>
+            <script>
+              function setAgentPicture(path, width = 32, height = 32, shape = "rectangle") {
+                  const img = document.getElementById('agentPicture');
+                  if (path) {
+                      img.src = path;
+                      img.style.width = width + 'px';
+                      img.style.height = height + 'px';
+                      img.style.display = 'inline-block';
+                      img.style.borderRadius = shape === "round" ? "50%" : "10px";
+                      img.style.objectFit = "contain";  // Prevent cropping
+                      img.style.backgroundColor = "#f0f0f0";  // Optional - looks better
+                  } else {
+                      img.style.display = 'none';
+                  }
+              }
+              // Example usage
+              setAgentPicture('image/Logo1.png', 90, 40, "rectangle");
+            </script>
+        </div>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="AboutMe.html">About Creator</a>
+      <a href="LoginPage.html">Sign-in/Sign-up</a>
+    </nav>
+  </header>
+  <section class="horizontal-border">
+  </section>
+  <section class="hero">
+    <img src="image/Index.JPG" alt="AI Agent"/>
+    <div class="hero-text">
+      <h3 style="font-size: 1.0rem;">Hi, I am Vika.</h3>
+      <p style="font-size: 0.9rem;">
+        I am your AI Agent — your productivity partner.
+      </p>      
+      <p style="font-size: 0.9rem;">
+        I am not just another AI chatbot. I am an autonomous, multi-modal AI assistant, designed to understand the world the way you do — through text, voice, and media. Whether you're speaking, typing, uploading a file, or sharing an image, I am here to listen, analyze, and act.
+      </p>
+      <p style="font-size: 0.9rem;">
+        I can make smart decisions, plan steps, and work autonomously to help you reach your goals faster.
+      </p>
+      <p style="font-size: 0.9rem;">
+        As humans, we have already begun integrating AI into our daily lives in various forms — and now, we are shaping it to meet our individual needs more than ever.
+      </p>
+      <p style="font-size: 0.9rem;">
+        So, let's unlock new levels of productivity and intelligence — together. <BR>
+        <BR>Want to know more? 
+        <BR><I>🤝Feel free to connect with my <a href="AboutMe.html" style="color:#17bcfe; text-decoration:underline;"><B>Creator</B></a>.</I>
+        <BR><I>🛠️Click here to know <a href="#" onclick="openInternals();" style="color:#17bcfe; text-decoration:underline;"><B>Internals</B></a>.</I>
+        <script>
+          function closeInternals() {
+            const modal = document.getElementById('settingsModal');
+            if (modal) {
+              modal.style.display = 'none'; // or modal.remove() if you want it fully gone
+            }
+          }          
+          function openInternals() {
+            // Check if modal already exists
+            let modal = document.getElementById('settingsModal');
+            if (!modal) {
+              // Create modal HTML structure
+              modal = document.createElement('div');
+              modal.className = 'settings-modal';
+              modal.id = 'settingsModal';
+              modal.style.position = 'fixed';
+              modal.style.top = '0';
+              modal.style.left = '0';
+              modal.style.width = '100vw';
+              modal.style.height = '100vh';
+              modal.style.background = 'rgba(0,0,0,0.3)';
+              modal.style.display = 'flex';
+              modal.style.alignItems = 'center';
+              modal.style.justifyContent = 'center';
+              modal.style.zIndex = '9999';
+          
+              // Popup window style
+              const popupStyle = `
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+                min-width: 800px;   /* Increased */
+                min-height: 500px;  /* Increased */
+                max-width: 90vw;
+                max-height: 90vh;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                position: relative;
+                animation: popupFadeIn 0.2s;
+              `;
+          
+              modal.innerHTML = `
+                <div class="Internals-window" style="${popupStyle}">
+                  <div class="Internals-header" style="padding:10px 15px; font-size:1.2em; font-weight:semibold; border-bottom:1px solid #eee;">
+                    'vika.ai' - Internals
+                    <span onclick="closeInternals()" style="cursor:pointer; font-size:1.5em; color:#17bcfe; float:right; margin-left:auto;">&times;</span>
+                  </div>
+                    <div class="Internals-body" style="display:flex; flex:1 1 auto; min-height:180px; overflow-y:auto; flex-direction:column;">
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                      <img src="image/Internal-1.png" alt="Internals Image 1" style="max-width: 100%; height: auto; margin-bottom: 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
+                      <img src="image/Internal-1.png" alt="Internals Image 2" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
+                    </div>
+                  </div>
+                </div>
+              `;
+              // Optional: Add fade-in animation
+              const style = document.createElement('style');
+              style.innerHTML = `
+                @keyframes popupFadeIn {
+                  from { transform: scale(0.96); opacity: 0; }
+                  to { transform: scale(1); opacity: 1; }
+                }
+              `;
+              // document.head.appendChild(style);
+              document.body.appendChild(modal);
+            }
+            modal.style.display = 'flex';
+          }
+        </script>
+        <BR><I></I>
+      </p>
+    </div>
+  </section>
+</body>
+</html>

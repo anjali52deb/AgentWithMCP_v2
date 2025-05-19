@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>AI Agent Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- =============================================================== -->  
+  <!-- <script src="vika_ai_agent.js"></script> -->
+  <!-- <link rel="stylesheet" href="vika_ai_agent.css"> 
+  <script src="vika_ai_setttings.js"></script>   -->
+
+  <link rel="stylesheet" id="maincss">
+  <script>
+    // Set CSS with timestamp
+    document.getElementById('maincss').href = 'vika_ai_agent.css?v=' + Date.now();
+
+    // Set JS with timestamp
+    var s = document.createElement('script');
+    s.src = 'vika_ai_setttings.js?v=' + Date.now();
+    document.head.appendChild(s);
+  </script>
+  <!-- =============================================================== -->
+
+  <!-- =============================================================== -->
+</head>
+<body class="bg-gray-50 text-sm text-gray-800">
+  <div class="flex flex-col h-screen w-screen">
+    <!-- Top Navbar -->
+    <div class="flex items-center justify-between px-4 py-2 border-b bg-white">
+      <div class="flex items-center space-x-3 mx-4">
+        <span class="flex items-center"></span>
+          <img id="agentPicture" src="" alt="Agent Picture" style="display:none; border-radius: 6px; object-fit: contain; max-width: 100%; max-height: 64px;" />
+          <script>
+            function setAgentPicture(path, width = 32, height = 32, shape = "rectangle") {
+                const img = document.getElementById('agentPicture');
+                if (path) {
+                    img.src = path;
+                    img.style.width = width + 'px';
+                    img.style.height = height + 'px';
+                    img.style.display = 'inline-block';
+                    img.style.borderRadius = shape === "round" ? "50%" : "10px";
+                    img.style.objectFit = "contain";
+                    img.style.backgroundColor = "#f0f0f0";
+                } else {
+                    img.style.display = 'none';
+                }
+            }
+            setAgentPicture('image/Logo1.png', 90, 40, "rectangle");
+          </script>
+        </span>
+        <button class="text-xs rounded border px-4 py-1 bg-gray-100 font-semibold text-gray-700" onclick="startNewChat()">📝New Chat</button>
+        <div class="flex items-center space-x-1">
+          <span class="text-xs">Model:</span>
+          <select name="llm" class="text-xs rounded border px-2 py-1 bg-gray-100">
+            <option value="NONE" selected>🔴None</option>
+            <option value="gemini">✨Gemini</option>
+            <option value="gpt (blocked)">🔒GPT</option>
+            <option value="auto (blocked)">🔒Auto-Pilot</option>
+          </select>
+        </div>
+        <div class="flex items-center space-x-1">
+          <span class="text-xs">Style:</span>
+          <select name="llmStyle" class="text-xs rounded border px-2 py-1 bg-gray-100">
+            <option value="creative">🎨Creative</option>
+            <option value="balanced" selected>⚖️Balanced</option>
+            <option value="precise">🎯Precise</option>
+            <!-- Style-Creative >> 0.9 || Style-Balanced >> 0.6 ||Style-Precise >> 0.2 -->
+          </select>
+        </div>
+      </div>
+      <!-- --------------------------- -->
+      <div class="flex items-center space-x-4">
+        <span class="italic text-xs" id="userEmailSpan">User ID: 'unknown'</span>
+        <script>
+          // Set user email in navbar if available
+          (function() {
+            const userInfoRaw = localStorage.getItem("userInfo");
+            if (userInfoRaw) {
+              try {
+                const userInfo = JSON.parse(userInfoRaw);
+                if (userInfo.email) {
+                  document.getElementById("userEmailSpan").textContent = "User ID: " + userInfo.email + "";
+                }
+              } catch (e) {}
+            }
+          })();
+        </script>
+        <button class="text-xs rounded border px-2 py-1 bg-gray-100 font-semibold text-gray-700" onclick="openSettings()">
+          ⚙️Settings
+        </button>
+        <button class="text-xs rounded border px-2 py-1 bg-gray-100 font-semibold text-gray-700" onclick="doLogout()"> 
+          🚪Logout
+        </button>
+        <!-- <select id="google_translate_element" class="text-xs rounded border px-2 py-1 bg-gray-100 font-semibold">
+          <option value="EN">English</option>
+          <option value="FR">French</option>
+          <option value="ES">Spanish</option>
+          <option value="HI">Hindi</option>
+          <option value="KO">Korean</option>
+        </select> -->
+      </div>
+    </div>
+
+    <section class="horizontal-border"></section>
+
+    <!-- Main Content -->
+    <div class="flex flex-1 overflow-hidden relative">
+      <!-- Left Sidebar -->
+      <div class="relative w-1/5 min-w-[200px] border-r bg-white p-2 transition-all duration-300" id="leftSidebar">
+        <div class="mb-2 font-semibold text-center text-gray-500 text-xs">💬 Chat History 💬</div>
+
+        <div class="flex flex-col h-[calc(100%-111px)]">
+          <div id="chatHistoryContainer" class="flex-1 overflow-y-auto rounded p-2 text-xs space-y-1 text-gray-700">
+            <!-- Chat Sessions will render here -->
+          </div>
+        </div>
+        <div class="absolute left-2 right-2 bottom-12">
+          <div class="flex items-center space-x-2">
+            <input type="checkbox" style="accent-color: #bdbdbd;"/>
+            <label class="text-xs text-gray-700">📂Auto Save to:</label>
+            <select class="text-xs rounded border px-1 py-0.5 bg-gray-100">
+              <option>Local Folder</option>
+              <option>Google Drive</option>
+            </select>
+          </div>
+        </div>
+        <div class="absolute bottom-2 left-2 right-2">
+          <button class="text-xs font-bold w-full rounded px-2 py-1 text-gray-300" id="sessionIdBtn" style="font-size: 10px;">Session uptime # ''</button>
+          <script>
+            // Set session uptime
+            let startTime = sessionStorage.getItem("agent_session_start");
+            if (!startTime) {
+              startTime = Date.now();
+              sessionStorage.setItem("agent_session_start", startTime);
+            }
+            function formatUptime(ms) {
+              const totalSeconds = Math.floor(ms / 1000);
+              const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, "0");
+              const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, "0");
+              const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+              return `${hours}:${minutes}:${seconds}`;
+            }
+            function updateUptime() {
+              const now = Date.now();
+              const uptime = now - startTime;
+                document.getElementById("sessionIdBtn").innerHTML = "<span style='color: #666'>Session uptime # " + formatUptime(uptime) + "</span>";
+            }
+            updateUptime();
+            setInterval(updateUptime, 1000);
+          </script>
+        </div> 
+      </div>
+      <!-- Left Toggle Button (always visible) -->
+      <button aria-label="Collapse sidebar" class="toggle-btn" id="leftToggleBtn" onclick="toggleSidebar('left')">
+        <span id="leftArrowIcon">
+          <!-- Default: Left Arrow (expanded) -->
+          <svg height="24" viewBox="0 0 32 32" width="24">
+            <circle cx="16" cy="16" fill="none" r="15" stroke="grey" stroke-width="2"></circle>
+            <polyline fill="none" points="20,10 12,16 20,22" stroke="grey" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+          </svg>
+        </span>
+      </button>
+      <!-- Chat Section -->
+      <div class="flex-1 flex flex-col justify-between transition-all duration-300 bg-gray-50">
+        <!-- Chat Messages -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4" id="messages"></div>
+
+        <!-- 🔁 NEW: Moved Preview Section -->
+        <div class="attachment-preview-wrapper">
+          <div id="pendingAttachmentsPreview"></div>
+        </div>
+       
+        <div class="border-t p-3 flex items-center space-x-1 bg-white" id="inputContainer">
+          <button class="action-button text-sm items-center" id="attachmentButton" title="Attach File"><span style="color: #17bcfe;">✚</span></button>
+          <input type="file" id="fileInput" style="display:none" multiple>
+          <textarea class="flex-grow min-h-[40px] border rounded p-2 resize-none" id="user-input" placeholder="Input prompt..."></textarea>
+            <div class="flex items-center space-x-1">
+            <button class="icon-button" id="sendButton" title="Send Message"><i class="fas fa-paper-plane"></i></button>        
+            <button class="icon-button" id="voiceButton" title="Voice Input"><i class="fas fa-microphone w-5 h-5"></i></button>
+            <button class="icon-button" id="cameraButton" title="Capture Image"><i class="fas fa-camera w-5 h-5"></i></button>
+            <!-- <button class="icon-button" id="cameraLive" title="Camera Live"><i class="fas fa-video w-5 h-5"></i></button> -->
+            </div>
+        </div>
+      </div>
+
+      <!-- Right Sidebar -->
+      <div class="relative w-1/5 min-w-[200px] border-l bg-white p-2 transition-all duration-300" id="rightSidebar">
+        <div class="mb-2 font-semibold text-center text-gray-500 text-xs">🛠️Configure AI-Agent, Tools</div>
+        <p class="mb-2 font-semibold text-center text-gray-500 text-xs"></p><br/>
+        <ul class="space-y-2 text-sm text-gray-700">
+          <!-- Main Menu One -->
+          <li>
+            <button class="w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('GitHub')">
+              GitHub✨Code✨Mining <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+            </button>
+            <ul id="GitHub" class="mt-2 ml-4 space-y-1 hidden text-xs">
+              <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
+              <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
+            </ul>
+          </li>
+          <!-- Main Menu Two -->
+          <li>
+            <button class="w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('WhatsApp')">
+              WhatsApp <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+            </button>
+            <ul id="WhatsApp" class="mt-2 ml-4 space-y-1 hidden text-xs">
+              <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
+              <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
+            </ul>
+          </li>
+      
+          <!-- Main Menu Three -->
+          <li>
+            <button class="w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('YouTube')">
+              YouTube <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+            </button>
+            <ul id="YouTube" class="mt-2 ml-4 space-y-1 hidden text-xs">
+              <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
+              <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
+            </ul>
+          </li>
+          <!-- Optional: Work in Progress Note -->
+          <li class="text-gray-400 italic mt-4 text-xs">
+            <BR><BR>To achieve Autonomous AI agent, we must initially configure its goals, knowledge, tools, learning process, and decision-making logic.
+            <BR><BR>Any software or tools that have a REST-API for 3rd party interaction, we can accommodate here.
+            <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...
+          </li>
+        </ul>
+      </div>
+      <script>
+      function toggleMenu(id) {
+        const menu = document.getElementById(id);
+        menu.classList.toggle('hidden');
+      }
+      </script>
+      
+      <!-- ==================================== -->
+
+      <!-- Right Toggle Button (always visible) -->
+      <button aria-label="Collapse sidebar" class="toggle-btn" id="rightToggleBtn" onclick="toggleSidebar('right')">
+        <span id="rightArrowIcon">
+          <!-- Default: Right Arrow (expanded) -->
+          <svg height="24" viewBox="0 0 32 32" width="24">
+            <circle cx="16" cy="16" fill="none" r="15" stroke="grey" stroke-width="2"></circle>
+            <polyline fill="none" points="12,10 20,16 12,22" stroke="grey" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =============================================================== -->
+  <!-- <script src="vika_ai_agent.js"></script> -->
+  <link rel="stylesheet" id="maincss">
+  <script>
+    // Set JS with timestamp
+    var s1 = document.createElement('script');
+    s1.src = 'vika_ai_agent.js?v=' + Date.now();
+    document.head.appendChild(s1);
+
+    // const s1 = document.createElement('script');
+    // s1.src = 'vika_ai_setttings.js?v=' + Date.now();
+    // document.head.appendChild(s1);
+  </script>
+  <!-- ===============================================================   -->
+</body>
+</html>

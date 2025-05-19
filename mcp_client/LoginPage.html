@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page for "vika.ai"</title>
+  <style>
+    body {
+      background-color: #efb0b0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .login-container h1 {
+      margin-bottom: 20px;
+    }
+
+    .login-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      background-color: #0070f3;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .login-button.google {
+      background-color: #db4437;
+    }
+
+    .login-button.github {
+      background-color: #333;
+    }
+
+    .login-button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body style="background-color:rgb(69, 44, 198);">
+    <div class="login-container">
+        <h1>Sign In / Sign Up</h1>
+        <p class="text-gray-600" style="margin-bottom: 24px; font-size: 1.1em;"> Sign in or create an account to continue </p>
+        <button class="login-button google" onclick="loginWithProvider('google')">Login with Google</button>
+        <button class="login-button github" onclick="loginWithProvider('github')">Login with GitHub</button>
+    </div>
+
+
+    <!-- Load Supabase library first -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <!-- Then your custom script -->
+    <script>
+        // Wait until the Supabase library is loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            const SUPABASE_URL = 'https://hvqijjmhhhukoarccqhh.supabase.co'; 
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cWlqam1oaGh1a29hcmNjcWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMwNTUzNDAsImV4cCI6MjA1ODYzMTM0MH0.xnxaZ7o3eAPQYSi5yJ5Dhvtsr7GlEITuARc_WPkhmY8';
+
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            window.loginWithProvider = async function(provider) {
+                try {
+                    const { error } = await supabase.auth.signInWithOAuth({
+                        provider: provider,
+                        options: {
+                            redirectTo: "https://ai.story360degree.com/callback.html"
+                        }
+                    });
+                    if (error) {
+                        alert("Login failed.'You are in LoginPage.html': " + error.message);
+                    }
+                } catch (e) {
+                    alert("An unexpected error occurred. 'You are in LoginPage.html catch block': " + e.message);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

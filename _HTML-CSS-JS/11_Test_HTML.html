@@ -1,0 +1,80 @@
+<!-- vika_ai_agent_final.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>AI Agent :: vika.ai (Final Version)</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="vika_ai_agent_final.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="vika_ai_agent_final.js"></script>
+</head>
+<body class="bg-gray-50 text-sm text-gray-800">
+<div class="flex flex-col h-screen w-screen">
+
+  <!-- Top Navbar -->
+  <div class="flex items-center justify-between px-4 py-2 border-b bg-white">
+    <div class="flex items-center space-x-2">
+      <button class="text-xs rounded px-2 py-1 bg-gray-100" onclick="startNewChat()">📝 New Chat</button>
+      <span class="text-xs mr-1">Model:</span>
+      <select name="llm" class="text-xs rounded px-2 py-1 bg-gray-100">
+        <option value="NONE" selected>🔒 None 🔴</option>
+        <option value="gpt-blocked">🟢 GPT (Blocked)</option>
+      </select>
+    </div>
+    <div class="flex flex-col items-center justify-center mx-4 font-bold">
+      <span class="bg-gray-200 px-3 py-1 rounded text-sm font-semibold shadow-lg">Agent :: vika.ai</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="italic text-xs" id="userEmailSpan">User ID: unknown</span>
+      <button class="text-xs rounded px-2 py-1 bg-gray-100">⚙️ Settings</button>
+      <button class="text-xs rounded px-2 py-1 bg-gray-100" onclick="doLogout()">🚪 Logout</button>
+      <select class="text-xs rounded px-2 py-1 bg-gray-100">
+        <option value="EN">English</option>
+        <option value="FR">French</option>
+        <option value="ES">Spanish</option>
+        <option value="HI">Hindi</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="flex flex-1 overflow-hidden relative">
+
+    <!-- Left Sidebar (Chat History) -->
+    <div class="relative w-1/5 min-w-[200px] border-r bg-white p-2 transition-all duration-300" id="leftSidebar">
+      <div class="mb-2 font-medium text-center text-gray-700">Chat History 💬</div>
+      <div class="flex flex-col h-[calc(100%-80px)] overflow-y-auto p-2 text-xs space-y-1" id="chatHistoryContainer">
+        <!-- Chat Sessions will be rendered here dynamically -->
+      </div>
+    </div>
+
+    <!-- Center Chat Panel -->
+    <div class="flex-1 flex flex-col justify-between transition-all duration-300 bg-gray-50">
+      <div class="flex-1 overflow-y-auto p-4 space-y-4" id="messages"></div>
+      <div class="border-t p-3 flex items-center space-x-2 bg-white" id="inputContainer">
+        <textarea class="flex-grow min-h-[40px] border rounded p-2 resize-none" id="user-input" placeholder="Input prompt..."></textarea>
+        <button class="icon-button" onclick="sendMessage()" title="Send"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+
+    <!-- Right Sidebar (Tools) -->
+    <div class="relative w-1/5 min-w-[200px] border-l bg-white p-2 transition-all duration-300">
+      <div class="mb-2 font-medium text-center text-gray-700">Tools 🤖</div>
+      <p class="font-bold text-center text-gray-600">Configure Your AI-Agent</p>
+      <ul class="space-y-2 text-xs text-gray-700">
+        <li>Tool features work-in-progress</li>
+        <li>Web Scraper</li>
+        <li>WhatsApp Config</li>
+        <li>PDF Reader</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
