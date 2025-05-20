@@ -362,26 +362,17 @@ function renderChatHistory() {
     }
 }
 
-// function loadSessionMessages(index) {
-//   activeSessionIndex = index;
-//   clearMessages();
-//   const session = chatSessions[index];
-//   session.messages.forEach(msg => {
-//       appendMessage(msg.sender === "user" ? "Me" : "Vika.AI", msg.text, msg.sender);
-//   });
-// }
-
 function loadSessionMessages(index) {
   activeSessionIndex = index;
   clearMessages();
-  const session = chatSessions[index];
 
+  const session = chatSessions[index];
   const messagesContainer = document.getElementById("messages");
 
   if (!session || !messagesContainer) return;
   if (!session.messages || session.messages.length === 0) {
     messagesContainer.innerHTML = `
-      <div style="text-align:center; color:#999; padding-top:60px; font-size:14px;">
+      <div style="text-align:center; color:#999; padding-top:60px; font-size:16px;">
         👋 Start a conversation by typing below...
       </div>`;
     return;
@@ -391,7 +382,6 @@ function loadSessionMessages(index) {
     appendMessage(msg.sender === "user" ? "Me" : "Vika.AI", msg.text, msg.sender);
   });
 }
-
 
 // ================================================
 
@@ -640,118 +630,6 @@ function addDownloadIfNeeded(div, rawText) {
   div.appendChild(buttonGroup);
 }
 
-
-
-// function addDownloadIfNeeded(div, rawText) {
-//   const codeBlock = div.querySelector("code");
-//   const textContent = codeBlock ? codeBlock.textContent.trim() : rawText.trim();
-
-//   let detected = "txt";
-//   let mime = "text/plain";
-//   let blobContent = textContent;
-
-//   const lines = textContent.split("\n");
-
-//   // === 1. Text format detection ===
-//   if (textContent.startsWith("<?xml")) {
-//     detected = "xml";
-//     mime = "application/xml";
-//   } else if (textContent.startsWith("{") || textContent.startsWith("[")) {
-//     detected = "json";
-//     mime = "application/json";
-//   } else if (
-//     lines.length >= 2 &&
-//     lines[0].includes(",") &&
-//     lines.every(line => line.split(",").length === lines[0].split(",").length)
-//   ) {
-//     detected = "csv";
-//     mime = "text/csv";
-//   }
-
-//   // === 2. Base64-encoded binary format detection ===
-//   const base64Pattern = /^data:(.+);base64,(.+)$/;
-//   const base64Match = textContent.match(base64Pattern);
-//   if (base64Match) {
-//     mime = base64Match[1];
-//     const extensionMap = {
-//       "image/png": "png",
-//       "image/jpeg": "jpg",
-//       "image/webp": "webp",
-//       "audio/mpeg": "mp3",
-//       "audio/wav": "wav",
-//       "video/mp4": "mp4",
-//       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
-//       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
-//       "application/vnd.openxmlformats-officedocument.presentationml.presentation": "pptx"
-//     };
-
-//     detected = extensionMap[mime] || "bin";
-//     const binary = atob(base64Match[2]);
-//     const array = new Uint8Array(binary.length);
-//     for (let i = 0; i < binary.length; i++) {
-//       array[i] = binary.charCodeAt(i);
-//     }
-//     blobContent = array;
-//   }
-
-//   // === 3. Create Blob and Download Button ===
-//   const blob = new Blob([blobContent], { type: mime });
-//   const url = URL.createObjectURL(blob);
-
-//   const downloadBtn = document.createElement("button");
-//   downloadBtn.textContent = `⬇️ Download ${detected.toUpperCase()}`;
-//   downloadBtn.className = "text-xs bg-gray-100 border border-gray-300 rounded px-2 py-1 mt-1";
-//   downloadBtn.onclick = () => {
-//     const a = document.createElement("a");
-//     a.href = url;
-//     a.download = `response.${detected}`;
-//     a.click();
-//     URL.revokeObjectURL(url);
-//   };
-
-//   div.appendChild(downloadBtn);
-// }
-
-
-
-
-// function addDownloadIfNeeded(div, rawText) {
-//   let detected = "txt";
-//   let mime = "text/plain";
-
-//   const codeBlock = div.querySelector("code");
-//   const textContent = codeBlock ? codeBlock.textContent : rawText;
-
-//   if (textContent.trim().startsWith("<?xml") || textContent.includes("<SalesOrder")) {
-//     detected = "xml";
-//     mime = "application/xml";
-//   } else if (textContent.trim().startsWith("{")) {
-//     detected = "json";
-//     mime = "application/json";
-//   } else if (textContent.includes(",")) {
-//     detected = "csv";
-//     mime = "text/csv";
-//   }
-
-//   const blob = new Blob([textContent], { type: mime });
-//   const url = URL.createObjectURL(blob);
-
-//   const downloadBtn = document.createElement("button");
-//   // downloadBtn.textContent = `💾 Download ${detected.toUpperCase()}`;
-//   downloadBtn.textContent = `⬇️ Download`;
-//   downloadBtn.className = "text-xs bg-gray-100 border border-gray-300 rounded px-2 py-1 mt-1";
-//   downloadBtn.onclick = () => {
-//     const a = document.createElement("a");
-//     a.href = url;
-//     a.download = `response.${detected}`;
-//     a.click();
-//     URL.revokeObjectURL(url);
-//   };
-
-//   div.appendChild(downloadBtn);
-// }
-
-
 // =================================================================
 // Pressing Enter → sends message ✅
 // Pressing Shift + Enter → adds a new line ✅ (optional editing)
@@ -794,39 +672,4 @@ window.onload = function () {
   renderPendingAttachments();
 };
 
-
-
-
-  // window.onload = function () {
-
-  //   document.getElementById("sendButton").addEventListener('click', sendMessage);
-  //   document.getElementById("voiceButton").addEventListener('click', startVoiceRecognition);
-  //   document.getElementById("cameraButton").addEventListener('click', captureImage);
-  //   document.getElementById("attachmentButton").addEventListener('click', () => {
-  //     document.getElementById("fileInput").click();
-  //   });
-  
-  //   document.getElementById("fileInput").addEventListener('change', function(event) {
-  //     const files = event.target.files;
-  //     if (files.length === 0) return;
-  
-  //     Array.from(files).forEach(file => {
-  //       const reader = new FileReader();
-  //       reader.onload = function(e) {
-  //         const fileContent = e.target.result;
-  
-  //         pendingAttachments.push({
-  //           filename: file.name,
-  //           dataUrl: fileContent
-  //         });
-  //         renderPendingAttachments();
-  //       };
-  //       reader.readAsDataURL(file);
-  //     });
-  //   });
-  //   pendingAttachments = [];
-  //   renderPendingAttachments();
-  // };
-    
-  
 // ======================= END ============================      

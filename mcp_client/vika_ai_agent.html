@@ -191,52 +191,53 @@
 
       <!-- Right Sidebar -->
       <div class="relative w-1/5 min-w-[200px] border-l bg-white p-2 transition-all duration-300" id="rightSidebar">
-        <div class="mb-2 font-semibold text-center text-gray-500 text-xs flex-1 overflow-y-auto">🛠️Configure AI-Agent, Tools</div>
+        <div class="mb-2 font-semibold text-center text-gray-500 text-xs flex-1">🛠️Configure AI-Agent, Tools</div>        
+        <div class="overflow-y-auto" style="max-height: calc(100vh - 80px);">
 
-          <!-- <div id="chatHistoryContainer" class="flex-1 overflow-y-auto rounded p-2 text-xs space-y-1 text-gray-700"></div> -->
-
-        <p class="mb-2 font-semibold text-center text-gray-500 text-xs"></p><br/>
-        <ul class="space-y-2 text-sm text-gray-700">
-          <!-- Main Menu One -->
-          <li>
-            <button class="w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('GitHub')">
-              GitHub✨Code✨Mining <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
-            </button>
-            <ul id="GitHub" class="mt-2 ml-4 space-y-1 hidden text-xs">
-              <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
-              <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
-            </ul>
-          </li>
-          <!-- Main Menu Two -->
-          <li>
-            <button class="w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('WhatsApp')">
-              WhatsApp <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
-            </button>
-            <ul id="WhatsApp" class="mt-2 ml-4 space-y-1 hidden text-xs">
-              <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
-              <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
-            </ul>
-          </li>
-      
-          <!-- Main Menu Three -->
-          <li>
-            <button class="w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('YouTube')">
-              YouTube <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
-            </button>
-            <ul id="YouTube" class="mt-2 ml-4 space-y-1 hidden text-xs">
-              <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
-              <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
-            </ul>
-          </li>
-          <!-- Optional: Work in Progress Note -->
-          <li class="text-gray-400 italic mt-4 text-xs">
-            <BR><BR>To achieve Autonomous AI agent, we must initially configure its goals, knowledge, tools, learning process, and decision-making logic.
-            <BR><BR>Any software or tools that have a REST-API for 3rd party interaction, we can accommodate here.
-            <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...
-
-            <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...   Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...Agentic AI has thousand of use-cases, new features are coming here...          
-          </li>
-        </ul>
+          <p class="mb-2 font-semibold text-center text-gray-500 text-xs"></p><br/>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <!-- Main Menu One -->
+            <li>
+              <button class="menu-btn w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('GitHub')">
+                GitHub✨Code✨Mining <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+              </button>
+              <ul id="GitHub" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
+                <li><a href="#" class="block hover:text-gray-900">Prompt Setup</a></li>
+                <li><a href="#" class="block hover:text-gray-900">Code Mining</a></li>
+              </ul>
+            </li>
+            <!-- Main Menu Two -->
+            <li>
+              <button class="menu-btn w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('WhatsApp')">
+                WhatsApp <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+              </button>
+              <ul id="WhatsApp" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
+                <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
+                <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
+              </ul>
+            </li>
+        
+            <!-- Main Menu Three -->
+            <li>
+              <button class="menu-btn w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('YouTube')">
+                YouTube <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+              </button>
+              <ul id="YouTube" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
+                <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
+                <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
+              </ul>
+            </li>
+            <!-- Optional: Work in Progress Note -->
+            <li class="text-gray-400 italic mt-4 text-xs">
+              <BR><BR>To achieve Autonomous AI agent, we must initially configure its goals, knowledge, tools, learning process, and decision-making logic.
+              <BR><BR>Any software or tools that have a REST-API for 3rd party interaction, we can accommodate here.
+              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...
+              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...  .       
+              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...  .   
+              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...  .                                      
+            </li>
+          </ul>
+        </div>
       </div>
       <script>
       function toggleMenu(id) {

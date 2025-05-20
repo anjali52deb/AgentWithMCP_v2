@@ -110,8 +110,6 @@ body {
   line-height: 1.4;
 }
 
-
-
 #inputContainer {
   display: flex;
   align-items: center;
@@ -129,7 +127,6 @@ body {
   padding: 10px;
   resize: none;
 }
-
 .action-button {
   flex-shrink: 0;
   width: 38px;
@@ -309,39 +306,47 @@ body {
 }
 
 
-/* .message.agent button {
-  background-color: #f0f0f0;
-  color: #333;
-  font-size: 11px;
-  border: 1px solid #ccc;
-  margin-top: 6px;
-  border-radius: 4px;
-  padding: 3px 6px;
+/* ==================== */ /* for menu */ /* ==================== */
+
+/* Main menu button default */
+.menu-btn {
+  color: #64748b; /* Tailwind gray-500 */
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background 0.2s, color 0.2s;
   cursor: pointer;
-} */
-/* 
-.message.agent pre, .message.agent code {
-  white-space: pre-wrap;         
-  word-wrap: break-word;
-  overflow-x: auto;              
-  max-width: 100%;
+}
+/* Main menu button hover */
+.menu-btn:hover, .menu-btn:focus {
+  color: #64748b; /* Tailwind gray-500 */
+  background: #e6e6e6; /* light blue background */
+}
+/* Main menu button selected/active */
+.menu-btn.active {
+  color: #fff;
+  background: #e6e6e6; /* light blue background */
+}
+/* Submenu link default */
+.menu-sub a {
+  color: #64748b; /* Tailwind gray-500 */
+  padding-left: 0.75rem;
   display: block;
-}
-
-.message.agent button:hover {
-  background-color: #e0e0e0;
-}
-
-.message.agent button {
-  background-color: #f0f0f0;
-  font-size: 11px;
-  margin-top: 8px;
-  margin-bottom: 4px;
-  border: 1px solid #ccc;
   border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
-.message.agent button:hover {
-  background-color: #e2e2e2;
-} */
+/* Submenu link hover */
+.menu-sub a:hover, .menu-sub a:focus {
+  color: #64748b; /* Tailwind gray-500 */
+  font-weight: bold;
+  background: #e6e6e6; /* light blue background */
+}
+/* Submenu link selected/active */
+.menu-sub a.active {
+  color: #64748b; /* Tailwind gray-500 */
+  background: #e6e6e6; /* light blue background */
+  font-weight: bold;  
+}
