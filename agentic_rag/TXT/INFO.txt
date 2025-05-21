@@ -1,0 +1,52 @@
+Updated Folder Plan
+
+agentic_rag/
+├── master_rag_agent.py        # 🧠 Entry dispatcher: Store or Retrieve
+├── store_pipeline.py          # 📥 Store pipeline logic
+├── store_logger.py            # 📝 Supabase logging for store
+├── retrieve_pipeline.py       # 🔍 Retrieve pipeline logic
+├── retrieve_logger.py         # 📝 Supabase logging for queries
+├── universal_loader.py        # 📂 File loader for PDF, TXT, etc.
+├── index_router.py            # 🧭 Index selection logic
+├── llm_wrapper.py             # 🧠 LLM switch (GPT/Gemini)
+├── vector_db_config.json      # 🔧 Config file for index metadata
+├── utils.py                   # 🔧 Debug log, shared utils
+└── __init__.py
+
+
+✅ ACTION PLAN: ENTERPRISE-GRADE AGENTIC-RAG
+🔧 Module Breakdown
+
+| File                    | Purpose                                                  |
+| ----------------------- | -------------------------------------------------------- |
+| `master_rag_agent.py`   | Entrypoint: route Store/Retrieve, validate intent        |
+| `store_pipeline.py`     | Handles file ingest, chunk, embed, push to Pinecone      |
+| `store_logger.py`       | Writes file metadata, hash, and tag info to Supabase     |
+| `retrieve_pipeline.py`  | Routes queries, pulls from Pinecone, synthesizes         |
+| `retrieve_logger.py`    | Logs user queries, index used, response metadata         |
+| `llm_wrapper.py`        | GPT vs Gemini switch, with temp and model param          |
+| `universal_loader.py`   | Detects file type and loads cleanly                      |
+| `index_router.py`       | Based on `vector_db_config.json`, maps tags to index     |
+| `vector_db_config.json` | Lookup for index config (temp, tag, model, filter logic) |
+| `utils/debug.py`        | Helper for debug logs                                    |
+| `TestAgenticRAG.py`     | Master test script for all scenarios                     |
+
+✅ NEW MODULE: vector_db_config.json
+{
+  "rag_hr_policy": {
+    "domain_tags": ["hr", "leave policy", "attendance", "benefits"],
+    "embedding_model": "OpenAI",
+    "namespace": "rag_hr_policy"
+  },
+  "rag_finance": {
+    "domain_tags": ["finance", "q1 revenue", "accounts", "audit"],
+    "embedding_model": "OpenAI",
+    "namespace": "rag_finance"
+  },
+  "rag_compliance": {
+    "domain_tags": ["legal", "compliance", "regulation", "policy"],
+    "embedding_model": "OpenAI",
+    "namespace": "rag_compliance"
+  }
+}
+

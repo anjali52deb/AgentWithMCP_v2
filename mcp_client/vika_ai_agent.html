@@ -1,3 +1,5 @@
+<!-- FOR UNICODE http://vps.arachnoid.com/unicode/index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,19 +59,19 @@
         <button class="text-xs rounded border px-4 py-1 bg-gray-100 font-semibold text-gray-700" onclick="startNewChat()">📝New Chat</button>
         <div class="flex items-center space-x-1">
           <span class="text-xs">Model:</span>
-          <select name="llm" class="text-xs rounded border px-2 py-1 bg-gray-100">
+          <select name="llm" class="text-xs rounded border font-semibold px-2 py-1 bg-gray-100">
             <option value="NONE" selected>🔴None</option>
-            <option value="gemini">✨Gemini</option>
-            <option value="gpt (blocked)">🔒GPT</option>
-            <option value="auto (blocked)">🔒Auto-Pilot</option>
+            <option value="gemini" class="text-xs font-semibold">🔓Gemini</option>          
+            <option value="gpt (blocked)" class="text-xs font-semibold">🔒GPT</option>
+            <option value="auto (blocked)" class="text-xs font-semibold">🔒Auto-Pilot</option>
           </select>
         </div>
         <div class="flex items-center space-x-1">
           <span class="text-xs">Style:</span>
-          <select name="llmStyle" class="text-xs rounded border px-2 py-1 bg-gray-100">
-            <option value="creative">🎨Creative</option>
-            <option value="balanced" selected>⚖️Balanced</option>
-            <option value="precise">🎯Precise</option>
+          <select name="llmStyle" class="text-xs rounded border font-semibold px-2 py-1 bg-gray-100">
+            <option value="creative" class="text-xs font-semibold">🎨Creative</option>
+            <option value="balanced" class="text-xs font-semibold" selected>⚖️Balanced</option>
+            <option value="precise" class="text-xs font-semibold">🎯Precise</option>
             <!-- Style-Creative >> 0.9 || Style-Balanced >> 0.6 ||Style-Precise >> 0.2 -->
           </select>
         </div>
@@ -193,48 +195,95 @@
       <div class="relative w-1/5 min-w-[200px] border-l bg-white p-2 transition-all duration-300" id="rightSidebar">
         <div class="mb-2 font-semibold text-center text-gray-500 text-xs flex-1">🛠️Configure AI-Agent, Tools</div>        
         <div class="overflow-y-auto" style="max-height: calc(100vh - 80px);">
-
           <p class="mb-2 font-semibold text-center text-gray-500 text-xs"></p><br/>
           <ul class="space-y-2 text-sm text-gray-700">
-            <!-- Main Menu One -->
+            <!-- Main Menu Knowledge DB/RAG -->
             <li>
-              <button class="menu-btn w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('GitHub')">
-                GitHub✨Code✨Mining <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+              <button class="menu-btn w-full justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('RAG')">
+                Knowledge DB {Agentic-RAG} 🡇 <span class="ml-2 text-left w-full flex justify-start"></span>
+              </button>
+              <ul id="RAG" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
+                <li><a href="#" class="block hover:text-gray-900">Configuration</a></li>
+                <li><a href="#" class="block hover:text-gray-900">Metadata Exploration</a></li>     
+                <li><a href="#" class="block hover:text-gray-900">Store New</a></li>                
+              </ul>
+            </li>
+            <!----------------------------------------------------->         
+            <li>
+              <button class="menu-btn w-full justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('Simple-Search')">
+              🔎Web Search 🡇 <span class="ml-2 text-left w-full flex justify-start"></span>
+              </button>
+              <ul id="Simple-Search" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
+                  <!-------------------sub menu 1---------------------------------->   
+                  <li>
+                    <button class="menu-btn w-full justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('Finance-Reports-Sub')">
+                    Finance Reports ▼ <span class="ml-2 text-left w-full flex justify-start"></span>
+                    </button>
+                      <ul id="Finance-Reports-Sub" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
+                        <li><a href="#" class="block hover:text-gray-900">Configure</a></li>
+                        <li><a href="#" class="block hover:text-gray-900">Search Now & Save</a></li>
+                        <li><a href="#" class="block hover:text-gray-900">Schedule & Save</a></li>
+                      </ul>
+                  </li>
+                  <!-------------------sub menu 2---------------------------------->  
+                  <li>
+                    <button class="menu-btn w-full justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('Other-Reports-Sub')">
+                    Other ▼ <span class="ml-2 text-left w-full flex justify-start"></span>
+                    </button>
+                    <ul id="Other-Reports-Sub" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
+                      <li><a href="#" class="block hover:text-gray-900">TBD-1</a></li>
+                      <li><a href="#" class="block hover:text-gray-900">TBD-2</a></li>
+                      <li><a href="#" class="block hover:text-gray-900">TBD-3</a></li>
+                    </ul>
+                  </li>
+                  <!----------------------------------------------------->                     
+              </ul>
+            </li>
+            <!----------------------------------------------------->            
+            <li>
+              <button class="menu-btn w-full justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('GitHub')">
+                GitHub Code Mining 🡇 <span class="ml-2 text-left w-full flex justify-start"></span>
               </button>
               <ul id="GitHub" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
                 <li><a href="#" class="block hover:text-gray-900">Prompt Setup</a></li>
                 <li><a href="#" class="block hover:text-gray-900">Code Mining</a></li>
               </ul>
             </li>
-            <!-- Main Menu Two -->
+            <!----------------------------------------------------->
             <li>
-              <button class="menu-btn w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('WhatsApp')">
-                WhatsApp <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+              <button class="menu-btn w-full justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('WhatsApp')">
+                WhatsApp 🡇 <span class="ml-2 text-left w-full flex justify-start"></span>
               </button>
               <ul id="WhatsApp" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
                 <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
                 <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
               </ul>
             </li>
-        
-            <!-- Main Menu Three -->
+            <!----------------------------------------------------->
             <li>
-              <button class="menu-btn w-full flex justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('YouTube')">
-                YouTube <span class="ml-2 text-left w-full flex justify-start">🡇🡅</span>
+              <button class="menu-btn w-full justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('YouTube')">
+                YouTube 🡇 <span class="ml-2 text-left w-full flex justify-start"></span>
               </button>
               <ul id="YouTube" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
                 <li><a href="#" class="block hover:text-gray-900">Submenu 1</a></li>
                 <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
               </ul>
             </li>
-            <!-- Optional: Work in Progress Note -->
+            <!----------------------------------------------------->            
+            <li>
+              <button class="menu-btn w-full justify-between items-center text-xs font-semibold hover:text-gray-900 text-gray-500" onclick="toggleMenu('Databricks')">
+                Databricks 🡇 <span class="ml-2 text-left w-full flex justify-start"></span>
+              </button>
+              <ul id="Databricks" class="menu-sub mt-2 ml-4 space-y-1 hidden text-xs">
+                <li><a href="#" class="block hover:text-gray-900">Configure Connection</a></li>
+                <li><a href="#" class="block hover:text-gray-900">Submenu 2</a></li>
+              </ul>
+            </li>            
+            <!----------------------------------------------------->
             <li class="text-gray-400 italic mt-4 text-xs">
               <BR><BR>To achieve Autonomous AI agent, we must initially configure its goals, knowledge, tools, learning process, and decision-making logic.
               <BR><BR>Any software or tools that have a REST-API for 3rd party interaction, we can accommodate here.
-              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...
-              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...  .       
-              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...  .   
-              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...  .                                      
+              <BR><BR>Agentic AI has thousand of use-cases, new features are coming here...                 
             </li>
           </ul>
         </div>
@@ -245,7 +294,6 @@
         menu.classList.toggle('hidden');
       }
       </script>
-      
       <!-- ==================================== -->
 
       <!-- Right Toggle Button (always visible) -->
@@ -260,7 +308,6 @@
       </button>
     </div>
   </div>
-
   <!-- =============================================================== -->
   <!-- <script src="vika_ai_agent.js"></script> -->
   <link rel="stylesheet" id="maincss">

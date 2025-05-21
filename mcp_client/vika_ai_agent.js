@@ -444,6 +444,7 @@ function showHistoryOptions(index, button) {
   menu.innerHTML = `
       <div style="font-weight:normal;" onclick="renameSession(${index})">Rename</div>
       <div style="font-weight:normal;" onclick="deleteSession(${index})">Delete</div>
+      <div style="font-weight:normal;" onclick="downloadSession(${index})">Download</div>      
   `;
 
   // Position and add
