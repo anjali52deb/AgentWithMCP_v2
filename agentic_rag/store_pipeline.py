@@ -7,6 +7,7 @@ Handles RAG 'Store' Flow:
 3. Select proper index
 4. Embed + store in Pinecone
 5. Log metadata in Supabase
+Note: Embedding is always done using OpenAI (Gemini does not support embedding)
 """
 
 from agentic_rag.universal_loader import load_file
@@ -25,7 +26,9 @@ import hashlib
 
 # Init Pinecone once
 pinecone.init(api_key=os.getenv("PINECONE_API_KEY"), environment="us-west1-gcp")
-embed_model = OpenAIEmbeddings()
+
+# Always use OpenAI embeddings for dense vector storage
+embed_model = OpenAIEmbeddings(model="text-embedding-3-small")
 
 
 def store_document(filepath: str, llm_type: str = "gpt", temperature: float = 0.3, debug: bool = False):

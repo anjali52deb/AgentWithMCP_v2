@@ -1,17 +1,23 @@
 {
   "rag_hr_policy": {
-    "domain_tags": ["hr", "leave policy", "attendance", "benefits"],
+    "domain_tags": ["hr", "leave", "attendance", "benefits"],
     "embedding_model": "OpenAI",
-    "namespace": "rag_hr_policy"
+    "index_name": "agentic-rag-dense",
+    "dimension": 1536,
+    "type": "dense"
   },
   "rag_finance": {
     "domain_tags": ["finance", "q1 revenue", "accounts", "audit"],
     "embedding_model": "OpenAI",
-    "namespace": "rag_finance"
+    "index_name": "agentic-rag-dense",
+    "dimension": 1536,
+    "type": "dense"
   },
   "rag_compliance": {
     "domain_tags": ["legal", "compliance", "regulation", "policy"],
     "embedding_model": "OpenAI",
-    "namespace": "rag_compliance"
+    "index_name": "agentic-rag-dense",
+    "dimension": 1536,
+    "type": "dense"
   }
 }
