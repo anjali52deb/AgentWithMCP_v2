@@ -5,15 +5,15 @@ Handles logging for RAG Retrieve flow
 Logs user query, index used, timestamp, and LLM response to Supabase
 """
 
-from agentic_rag.utils import debug_log
 import os
 from supabase import create_client, Client
+from agentic_rag.utils import debug_log
 
 # Init Supabase client
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def log_retrieve_event(log_dict: dict):
     try:

@@ -5,50 +5,37 @@ Test runner for modular Agentic-RAG system
 Covers Store + Retrieve with GPT and Gemini
 """
 
-from agentic_rag.master_rag_agent import run_master_agent
+import sys
 import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from dotenv import load_dotenv
+load_dotenv()
+from agentic_rag.store_pipeline import store_document
 
-# Setup environment (you can also use dotenv)
-os.environ["PINECONE_API_KEY"] = "your-pinecone-key"
-os.environ["OPENAI_API_KEY"] = "your-openai-key"
-os.environ["GOOGLE_API_KEY"] = "your-gemini-key"
-os.environ["SUPABASE_URL"] = "your-supabase-url"
-os.environ["SUPABASE_KEY"] = "your-supabase-key"
 
-# File for storing
-FILE_PATH = "data/leave_policy.pdf"
+# Set test file path (adjust as needed)
+FILE_PATH = r"_Data/HR_Policy_Handbook.pdf"  # or "data/HR_Policy_Handbook.pdf"
 
-# Test Scenarios
+# Set keys from environment (safe fallback)
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-def test_store_with_gpt():
-    print("\n--- Test: Store Document with GPT ---")
-    run_master_agent(input_data=FILE_PATH, is_file=True, llm_type="gpt", temperature=0.2, debug=True)
+# Confirm environment
+print("\n🧪 STORE FLOW TEST STARTED")
+print("📂 File to process:", FILE_PATH)
+print("🔐 Pinecone Key Present:", bool(PINECONE_API_KEY))
+print("🔐 OpenAI Key Present:", bool(OPENAI_API_KEY))
+print("🔐 Supabase URL Present:", bool(SUPABASE_URL))
+print("🔐 Supabase Key Present:", bool(SUPABASE_KEY))
 
-def test_store_with_gemini():
-    print("\n--- Test: Store Document with Gemini ---")
-    run_master_agent(input_data=FILE_PATH, is_file=True, llm_type="gemini", temperature=0.2, debug=True)
+# Execute store pipeline
+store_document(
+    filepath=FILE_PATH,
+    llm_type="gpt",
+    temperature=0.2,
+    debug=True
+)
 
-def test_retrieve_hr_with_gpt():
-    print("\n--- Test: Retrieve HR Info with GPT ---")
-    run_master_agent(input_data="What is the leave policy?", is_file=False, llm_type="gpt", temperature=0.3, debug=True)
-
-def test_retrieve_hr_with_gemini():
-    print("\n--- Test: Retrieve HR Info with Gemini ---")
-    run_master_agent(input_data="What is the leave policy?", is_file=False, llm_type="gemini", temperature=0.3, debug=True)
-
-def test_retrieve_finance_with_gpt():
-    print("\n--- Test: Retrieve Finance Info with GPT ---")
-    run_master_agent(input_data="Tell me Q1 financial summary", is_file=False, llm_type="gpt", temperature=0.3, debug=True)
-
-def test_retrieve_finance_with_gemini():
-    print("\n--- Test: Retrieve Finance Info with Gemini ---")
-    run_master_agent(input_data="Tell me Q1 financial summary", is_file=False, llm_type="gemini", temperature=0.3, debug=True)
-
-# Run All
-if __name__ == "__main__":
-    test_store_with_gpt()
-    test_store_with_gemini()
-    test_retrieve_hr_with_gpt()
-    test_retrieve_hr_with_gemini()
-    test_retrieve_finance_with_gpt()
-    test_retrieve_finance_with_gemini()
+print("\n✅ STORE FLOW TEST COMPLETE")

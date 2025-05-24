@@ -14,7 +14,7 @@
     "type": "dense"
   },
   "rag_compliance": {
-    "domain_tags": ["legal", "compliance", "regulation", "policy"],
+    "domain_tags": ["compliance", "regulation", "legal", "policy"],
     "embedding_model": "OpenAI",
     "index_name": "agentic-rag-dense",
     "dimension": 1536,

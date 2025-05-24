@@ -1,0 +1,25 @@
+(venv) PS E:\AgentWithMCP_v2> python .\test_code\Test_AgenticRAG.py
+E:\AgentWithMCP_v2\venv\Lib\site-packages\langchain\chat_models\__init__.py:33: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+`from langchain_community.chat_models import ChatOpenAI`.
+
+To install langchain-community run `pip install -U langchain-community`.
+  warnings.warn(
+E:\AgentWithMCP_v2\venv\Lib\site-packages\langchain\chat_models\__init__.py:33: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+`from langchain_community.chat_models import ChatOpenAI`.
+
+To install langchain-community run `pip install -U langchain-community`.
+  warnings.warn(
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\test_code\Test_AgenticRAG.py", line 13, in <module>
+    from agentic_rag.master_rag_agent import run_master_agent
+  File "E:\AgentWithMCP_v2\agentic_rag\master_rag_agent.py", line 9, in <module>
+    from agentic_rag.store_pipeline import store_document
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 23, in <module>
+    import pinecone
+  File "E:\AgentWithMCP_v2\venv\Lib\site-packages\pinecone\__init__.py", line 5, in <module>
+    raise Exception(
+        "The official Pinecone python package has been renamed from `pinecone-client` to `pinecone`. Please remove `pinecone-client` from your project dependencies and add `pinecone` instead. See the README at https://github.com/pinecone-io/pinecone-python-client for more information on using the python SDK."
+    )
+Exception: The official Pinecone python package has been renamed from `pinecone-client` to `pinecone`. Please remove `pinecone-client` from your project dependencies and add `pinecone` instead. See the README at https://github.com/pinecone-io/pinecone-python-client for more information on using the python SDK.

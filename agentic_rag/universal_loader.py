@@ -5,8 +5,8 @@ Loads different file formats for RAG Store pipeline:
 Supports: PDF, TXT, JSON, HTML (basic)
 Returns: List[Document] objects
 """
-
-from langchain.document_loaders import PyPDFLoader, TextLoader, JSONLoader, UnstructuredHTMLLoader
+# NEW (recommended)
+from langchain_community.document_loaders import PyPDFLoader, TextLoader, JSONLoader, UnstructuredHTMLLoader
 from langchain.schema import Document
 import os
 

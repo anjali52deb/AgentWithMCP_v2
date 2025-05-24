@@ -8,7 +8,7 @@ Then calls corresponding pipeline with proper LLM & debug config
 
 from agentic_rag.store_pipeline import store_document
 from agentic_rag.retrieve_pipeline import retrieve_answer
-from agentic_rag.universal_loader import detect_request_type
+# from agentic_rag.universal_loader import detect_request_type
 from agentic_rag.utils import debug_log
 
 

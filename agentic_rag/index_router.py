@@ -1,24 +1,31 @@
 # index_router.py
 
 """
-Maps classification tags to vector DB indexes using config JSON
+Routes document classification tags to specific Pinecone index names.
+Includes fallback normalization and default routing.
 """
 
-import json
-import os
-
-# Load config once
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "vector_db_config.json")
-
-with open(CONFIG_PATH, "r") as f:
-    DB_CONFIG = json.load(f)
-
-
 def get_index_for_tag(tag: str) -> str:
-    tag = tag.lower()
-    for index, meta in DB_CONFIG.items():
-        for keyword in meta.get("domain_tags", []):
-            if keyword in tag:
-                return index
+    tag = tag.lower().strip()
 
-    raise ValueError(f"❌ No matching index found for tag: {tag}")
+    # Optional normalization
+    if "hr" in tag or "human" in tag:
+        tag = "human resources"
+    elif "finance" in tag:
+        tag = "finance"
+    elif "policy" in tag:
+        tag = "compliance"
+
+    tag_to_index = {
+        "human resources": "agentic-rag-dense",
+        "compliance": "agentic-rag-dense",
+        "finance": "agentic-rag-dense",
+        "security": "agentic-rag-dense",
+        "operations": "agentic-rag-dense",
+        # Add more as needed
+    }
+
+    if tag in tag_to_index:
+        return tag_to_index[tag]
+    else:
+        raise ValueError(f"❌ No matching index found for tag: {tag}")
