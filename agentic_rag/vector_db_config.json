@@ -1,23 +1,17 @@
 {
-  "rag_hr_policy": {
-    "domain_tags": ["hr", "leave", "attendance", "benefits"],
-    "embedding_model": "OpenAI",
-    "index_name": "agentic-rag-dense",
-    "dimension": 1536,
-    "type": "dense"
+  "default": {
+  "index_name": "vector_index",
+  "top_k": 3,
+  "llm": "gpt-4"
   },
-  "rag_finance": {
-    "domain_tags": ["finance", "q1 revenue", "accounts", "audit"],
-    "embedding_model": "OpenAI",
-    "index_name": "agentic-rag-dense",
-    "dimension": 1536,
-    "type": "dense"
+  "hr_policy": {
+    "index_name": "hr_policy_chunks",
+    "top_k": 5,
+    "llm": "gpt-4"
   },
-  "rag_compliance": {
-    "domain_tags": ["compliance", "regulation", "legal", "policy"],
-    "embedding_model": "OpenAI",
-    "index_name": "agentic-rag-dense",
-    "dimension": 1536,
-    "type": "dense"
+  "product_faq": {
+    "index_name": "product_faq_chunks",
+    "top_k": 5,
+    "llm": "gpt-3.5-turbo"
   }
 }

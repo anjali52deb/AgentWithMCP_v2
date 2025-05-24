@@ -1,94 +1,75 @@
-# store_pipeline.py (Aligned with LangChain RAG Tutorial)
+# store_pipeline.py
 
-"""
-RAG 'Store' pipeline aligned with official LangChain tutorial:
-- LOAD → SPLIT → EMBED → STORE
-- Uses RecursiveCharacterTextSplitter
-- Embeds via OpenAI
-- Batch inserts to Pinecone
-- Compatible with direct host API key
-"""
-
-from agentic_rag.universal_loader import load_file
-from agentic_rag.llm_wrapper import classify_text
-from agentic_rag.index_router import get_index_for_tag
-from agentic_rag.store_logger import log_store_event
-from agentic_rag.utils import debug_log
-
-from langchain_community.embeddings import OpenAIEmbeddings
-from langchain_community.vectorstores import Pinecone as PineconeVectorStore
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.documents import Document
-
-import pinecone
+import sys
 import os
-import uuid
-from datetime import datetime
-import hashlib
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Pinecone Init via direct host
-pinecone.init(
-    api_key=os.getenv("PINECONE_API_KEY"),
-    host="https://agentic-rag-dense-7xwqw04.svc.aped-4627-b74a.pinecone.io"
-)
-
-embed_model = OpenAIEmbeddings(model="text-embedding-3-small")
+from dotenv import load_dotenv
+from uuid import uuid4
 
 
-def store_document(filepath: str, llm_type: str = "gpt", temperature: float = 0.3, debug: bool = False):
-    if debug:
-        debug_log(f"📥 Starting STORE for file: {filepath}")
+from agentic_rag.LLM_LangChain import split_text_into_chunks
+from agentic_rag.attachment_handlers import extract_text_from_file
+from agentic_rag.store_logger import log_store_event
+from agentic_rag.mongo_client import get_mongo_vectorstore
+from agentic_rag.utils import get_file_hash
 
-    raw_documents = load_file(filepath)  # returns list of Documents
+from langchain_openai import OpenAIEmbeddings
+from langchain.docstore.document import Document
 
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50
+load_dotenv()  # Load OpenAI key and Mongo URI from .env
+
+def generate_doc_objects(text_chunks, metadata=None):
+    return [
+        Document(page_content=chunk, metadata=metadata or {})
+        for chunk in text_chunks
+    ]
+
+def store_to_mongodb(file_path: str):
+    print(f"📥 Starting STORE for file: {file_path}")
+
+    extracted_text = extract_text_from_file(file_path)
+    if not extracted_text:
+        print("❌ No text extracted from file. Aborting.")
+        return
+
+    text_chunks = split_text_into_chunks(extracted_text)
+    print(f"[DEBUG] 📄 Extracted into {len(text_chunks)} chunks")
+
+    metadata = {"source": os.path.basename(file_path)}
+    documents = generate_doc_objects(text_chunks, metadata=metadata)
+
+    vectorstore = get_mongo_vectorstore()
+    print(f"[DEBUG] 📦 Storing {len(documents)} docs to MongoDB Atlas")
+
+    for i, doc in enumerate(documents):
+        print(f"\n📄 Chunk {i+1}:\n{doc.page_content[:300]}")
+
+    doc_ids = [str(uuid4()) for _ in documents]
+    vectorstore.add_documents(documents=documents, ids=doc_ids)
+
+    # ✅ Log the event
+    # log_store_event(
+    #     file_name=os.path.basename(file_path),
+    #     chunk_count=len(documents),
+    #     status="success"
+    # )
+
+    file_hash = get_file_hash(file_path)
+
+    log_store_event(
+        file_name=os.path.basename(file_path),
+        chunk_count=len(documents),
+        status="success",
+        file_hash=file_hash
     )
 
-    all_chunks = splitter.split_documents(raw_documents)
+    print("✅ STORE flow completed successfully!")
 
-    if debug:
-        debug_log(f"📄 Loaded {len(raw_documents)} docs → {len(all_chunks)} chunks after splitting")
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python store_pipeline.py <path_to_file>")
+        sys.exit(1)
 
-    for chunk in all_chunks:
-        tag = classify_text(chunk.page_content, llm_type=llm_type, temperature=temperature)
-        chunk.metadata['tag'] = tag
-
-    # Group by tag/index to store in batch
-    index_chunks_map = {}
-    for chunk in all_chunks:
-        index_name = get_index_for_tag(chunk.metadata['tag'])
-        index_chunks_map.setdefault(index_name, []).append(chunk)
-
-    for index_name, chunks in index_chunks_map.items():
-        if debug:
-            debug_log(f"🔃 Storing {len(chunks)} chunks → {index_name}")
-
-        index = pinecone.Index(index_name)
-
-        vectorstore = PineconeVectorStore(
-            index=index,
-            embedding=embed_model,
-            text_key="page_content",
-            namespace=""
-        )
-
-        vectorstore.add_documents(chunks)
-
-    file_hash = _generate_hash(filepath)
-    log_store_event({
-        "file_id": str(uuid.uuid4()),
-        "file_hash": file_hash,
-        "source": filepath,
-        "chunk_count": len(all_chunks),
-        "timestamp": datetime.now().isoformat()
-    })
-
-    if debug:
-        debug_log("✅ STORE pipeline completed successfully.")
-
-
-def _generate_hash(filepath: str) -> str:
-    with open(filepath, 'rb') as f:
-        return hashlib.md5(f.read()).hexdigest()
+    file_path = sys.argv[1]
+    store_to_mongodb(file_path)

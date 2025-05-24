@@ -1,26 +1,54 @@
 # store_logger.py
 
-"""
-Handles logging for RAG Store flow
-Logs file ingestion metadata to Supabase or other tracking DB
-"""
+from pymongo import MongoClient
+from datetime import datetime
+from agentic_rag.config import MONGO_URI, LOG_DB_NAME
 
-from agentic_rag.utils import debug_log
-import os
-from supabase import create_client, Client
+def log_store_event(file_name, chunk_count, status, file_hash=None, additional_info=None):
+    client = MongoClient(MONGO_URI)
+    db = client[LOG_DB_NAME]
+    collection = db["store_logs"]
 
-# Init Supabase client
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+    log_entry = {
+        "file_name": file_name,
+        "chunk_count": chunk_count,
+        "status": status,
+        "timestamp": datetime.utcnow()
+    }
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    if file_hash:
+        log_entry["file_hash"] = file_hash
+
+    if additional_info:
+        log_entry.update(additional_info)
+
+    collection.insert_one(log_entry)
+    print(f"📝 Logged STORE event for: {file_name}")
 
 
-def log_store_event(log_dict: dict):
-    try:
-        response = supabase.table("rag_store_logs").insert(log_dict).execute()
-        debug_log(f"📝 Store metadata logged: {log_dict}")
-        return response
-    except Exception as e:
-        debug_log(f"❌ Failed to log store metadata: {e}")
-        return None
+
+
+
+# # store_logger.py
+
+# from pymongo import MongoClient
+# from datetime import datetime
+# from agentic_rag.config import MONGO_URI, LOG_DB_NAME
+
+# def log_store_event(file_name, chunk_count, status, additional_info=None):
+#     client = MongoClient(MONGO_URI)
+#     db = client[LOG_DB_NAME]
+#     collection = db["store_logs"]
+
+#     log_entry = {
+#         "file_name": file_name,
+#         "chunk_count": chunk_count,
+#         "status": status,
+#         "timestamp": datetime.utcnow()
+#     }
+
+#     if additional_info:
+#         log_entry.update(additional_info)
+
+#     collection.insert_one(log_entry)
+#     print(f"📝 Logged STORE event for: {file_name}")

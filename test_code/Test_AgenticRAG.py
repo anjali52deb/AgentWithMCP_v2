@@ -1,41 +1,79 @@
-# TestAgenticRAG.py
+# Test_AgenticRAG.py
 
 """
-Test runner for modular Agentic-RAG system
-Covers Store + Retrieve with GPT and Gemini
+Unified test runner for Agentic-RAG system
+Scenarios:
+1. Store file and log
+2. View store logs
+3. Run a retrieve query
+4. View retrieve logs
 """
 
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dotenv import load_dotenv
+from pprint import pprint
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 load_dotenv()
-from agentic_rag.store_pipeline import store_document
+
+# ✅ MODULES
+from agentic_rag.store_pipeline import store_to_mongodb
+from agentic_rag.log_viewer import view_logs
+from agentic_rag.retrieve_pipeline import retrieve_from_mongodb
+from agentic_rag.master_rag_agent import route_mode
+
+# ✅ CONFIGS
+FILE_PATH = r"_Data/HR_Policy_Handbook.pdf"
+RETRIEVE_QUERY = "What is the leave policy?"
+RETRIEVE_TAG = "vector_index"
+
+# ✅ MENU
+def main():
+    print("\n🧪 Agentic-RAG Test Console")
+    print("1️⃣  Run STORE pipeline")
+    print("2️⃣  View STORE logs")
+    print("3️⃣  Run RETRIEVE query")
+    print("4️⃣  View RETRIEVE logs")
+    print("0️⃣  Exit")
+
+    choice = input("\nChoose a test [0–4]: ").strip()
+
+    if choice == "1":
+        print(f"\n📂 Processing file: {FILE_PATH}")
+
+        result = route_mode("store", FILE_PATH)
+        print(result)
+
+    elif choice == "2":
+        print("\n📜 Showing STORE logs:")
+        view_logs(log_type="store", limit=5)
+    elif choice == "3":
+        print(f"\n❓ Query: {RETRIEVE_QUERY}")
+        answer = retrieve_from_mongodb(RETRIEVE_QUERY, tag=RETRIEVE_TAG)
+        print("\n💡 Answer:\n", answer)
+    elif choice == "4":
+        print("\n📜 Showing RETRIEVE logs:")
+        view_logs(log_type="retrieve", limit=5)
+    elif choice == "0":
+        print("👋 Goodbye!")
+        return
+    else:
+        print("❌ Invalid choice. Try again.")
+
+    print("\n🔁 Back to menu...\n")
+    main()
 
 
-# Set test file path (adjust as needed)
-FILE_PATH = r"_Data/HR_Policy_Handbook.pdf"  # or "data/HR_Policy_Handbook.pdf"
+if __name__ == "__main__":
+    main()
 
-# Set keys from environment (safe fallback)
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-# Confirm environment
-print("\n🧪 STORE FLOW TEST STARTED")
-print("📂 File to process:", FILE_PATH)
-print("🔐 Pinecone Key Present:", bool(PINECONE_API_KEY))
-print("🔐 OpenAI Key Present:", bool(OPENAI_API_KEY))
-print("🔐 Supabase URL Present:", bool(SUPABASE_URL))
-print("🔐 Supabase Key Present:", bool(SUPABASE_KEY))
+# 🧪 Agentic-RAG Test Console
+# 1️⃣  Run STORE pipeline
+# 2️⃣  View STORE logs
+# 3️⃣  Run RETRIEVE query
+# 4️⃣  View RETRIEVE logs
+# 0️⃣  Exit
 
-# Execute store pipeline
-store_document(
-    filepath=FILE_PATH,
-    llm_type="gpt",
-    temperature=0.2,
-    debug=True
-)
-
-print("\n✅ STORE FLOW TEST COMPLETE")
+# Choose a test [0–4]:

@@ -1,25 +1,24 @@
 # retrieve_logger.py
 
-"""
-Handles logging for RAG Retrieve flow
-Logs user query, index used, timestamp, and LLM response to Supabase
-"""
+from pymongo import MongoClient
+from datetime import datetime
+from agentic_rag.config import MONGO_URI, LOG_DB_NAME
 
-import os
-from supabase import create_client, Client
-from agentic_rag.utils import debug_log
+def log_retrieve_event(query, result_count, source_index, llm_used, response_summary=None):
+    client = MongoClient(MONGO_URI)
+    db = client[LOG_DB_NAME]
+    collection = db["retrieve_logs"]
 
-# Init Supabase client
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+    entry = {
+        "query": query,
+        "result_count": result_count,
+        "source_index": source_index,
+        "llm_used": llm_used,
+        "timestamp": datetime.utcnow()
+    }
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    if response_summary:
+        entry["response_summary"] = response_summary
 
-def log_retrieve_event(log_dict: dict):
-    try:
-        response = supabase.table("rag_retrieve_logs").insert(log_dict).execute()
-        debug_log(f"📝 Retrieve log saved: {log_dict}")
-        return response
-    except Exception as e:
-        debug_log(f"❌ Failed to log retrieve event: {e}")
-        return None
+    collection.insert_one(entry)
+    print(f"📝 Logged RETRIEVE event for: '{query}'")

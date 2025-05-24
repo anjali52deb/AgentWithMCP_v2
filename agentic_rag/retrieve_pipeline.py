@@ -1,65 +1,39 @@
 # retrieve_pipeline.py
 
-"""
-Handles RAG 'Retrieve' Flow:
-1. Classify query
-2. Route to proper index
-3. Retrieve relevant chunks
-4. LLM synthesis with GPT or Gemini
-5. Return + optionally log output
-"""
-
-from agentic_rag.llm_wrapper import get_llm, classify_text
-from agentic_rag.index_router import get_index_for_tag
+from agentic_rag.mongo_client import get_mongo_vectorstore
+from agentic_rag.index_router import route_index
+from agentic_rag.llm_wrapper import get_llm_response
 from agentic_rag.retrieve_logger import log_retrieve_event
-from agentic_rag.utils import debug_log
 
-from langchain_community.embeddings import OpenAIEmbeddings
-from langchain_community.vectorstores import Pinecone as PineconeVectorStore
-from langchain.chains import RetrievalQA
-from pinecone import Pinecone
+def retrieve_from_mongodb(query: str, tag: str = None):
+    print(f"🔍 Starting RETRIEVE for: '{query}' | tag: {tag or 'default'}")
 
-import os
-from datetime import datetime
+    # Step 1: Get config
+    config = route_index(tag or "default")
+    index_name = config.get("index_name", "default")
+    llm_model = config.get("llm", "gpt-4")
+    top_k = config.get("top_k", 5)
 
-# Init Pinecone client with SDK v3+
-pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-embed_model = OpenAIEmbeddings(model="text-embedding-3-small")
+    # Step 2: Connect to vector store
+    vectorstore = get_mongo_vectorstore(index_name=index_name)
+    results = vectorstore.similarity_search(query, k=top_k)
 
+    print(f"✅ Retrieved {len(results)} chunks from MongoDB Atlas")
 
-def retrieve_answer(query: str, llm_type: str = "gpt", temperature: float = 0.3, debug: bool = False):
-    if debug:
-        debug_log(f"🔍 Starting RETRIEVE for query: {query}")
+    # Step 3: Compose context
+    context = "\n\n".join([doc.page_content for doc in results])
 
-    # Step 1: Classify query
-    tag = classify_text(query, llm_type, temperature)
-    index_name = get_index_for_tag(tag)
+    # Step 4: Call LLM
+    prompt = f"Use the following context to answer the question:\n\n{context}\n\nQ: {query}"
+    answer = get_llm_response(prompt, model_name=llm_model)
 
-    if debug:
-        debug_log(f"🏷️ Query classified as '{tag}' → Using index: {index_name}")
-
-    # Step 2: Retrieve from Pinecone
-    vectorstore = PineconeVectorStore.from_existing_index(
-        index_name=index_name,
-        embedding=embed_model,
-        pinecone_client=pc
+    # Step 5: Log retrieval
+    log_retrieve_event(
+        query=query,
+        result_count=len(results),
+        source_index=index_name,
+        llm_used=llm_model,
+        response_summary=answer[:300]
     )
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
-    # Step 3: LLM synthesis
-    llm = get_llm(llm_type, temperature)
-    qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever, return_source_documents=True)
-    result = qa(query)
-
-    # Step 4: Log & return
-    log_retrieve_event({
-        "query": query,
-        "index_used": index_name,
-        "timestamp": datetime.now().isoformat(),
-        "response": result['result']
-    })
-
-    print("\n📋 Final Answer:", result['result'])
-    print("\n📄 Source Chunks:")
-    for doc in result['source_documents']:
-        print("---", doc.page_content[:200])
+    return answer
