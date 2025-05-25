@@ -3,6 +3,7 @@
 import os
 from agentic_rag.store_pipeline import store_to_mongodb
 from agentic_rag.retrieve_pipeline import retrieve_from_mongodb
+
 from agentic_rag.log_metadata_reader import file_hash_already_stored
 from agentic_rag.utils import get_file_hash
 from agentic_rag.store_logger import log_store_event
@@ -17,7 +18,7 @@ def route_mode(mode: str, input_value: str, tag: str = None):
             return f"⛔ STORE skipped — duplicate content: {file_name}"
 
         print(f"\n🚀 RAG-STORE Triggered → file: {file_name}")
-        store_to_mongodb(input_value)
+        store_to_mongodb(input_value, tag=tag)
 
         # # Optional: log file_hash if not already in store_pipeline
         # log_store_event(
