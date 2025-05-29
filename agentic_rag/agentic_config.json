@@ -1,0 +1,19 @@
+{
+  "llm": {
+    "provider": "openai",   
+    "model_name": "gpt-4",
+    "embedding_model": "text-embedding-3-small",
+    "temperature": 0.7,
+    "max_tokens": 1024
+  },
+  "api_keys": {
+    "openai_api_key": "YOUR_OPENAI_KEY_HERE",
+    "gemini_api_key": "YOUR_GEMINI_KEY_HERE",
+    "mongodb_uri": "YOUR_MONGODB_URI_HERE"
+  },
+  "fallback": {
+    "llm_model_name": "gpt-3.5-turbo",
+    "embedding_model": "text-embedding-ada-002",
+    "use_env_if_missing": true
+  }
+}
