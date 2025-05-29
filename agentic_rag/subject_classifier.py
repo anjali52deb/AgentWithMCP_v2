@@ -5,7 +5,12 @@ import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-SUBJECT_CANDIDATES = ["Profile_DB", "History_DB", "Misc_DB", ]
+# SUBJECT_CANDIDATES = ["Profile_DB", "History_DB", "Misc_DB", ]
+SUBJECT_CANDIDATES = [
+    "CompanyProfile",
+    "TransactionHistory",
+    "EverythingElse"
+]
 
 
 def classify_subject(query: str) -> Optional[str]:
