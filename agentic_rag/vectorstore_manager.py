@@ -26,6 +26,22 @@ def get_mongo_vectorstore(db_name, collection_name, index_name, embedding_model_
 
     return vectorstore
 
+def get_vectorstore_instance(db_tuple):
+    if not isinstance(db_tuple, tuple) or len(db_tuple) != 2:
+        raise ValueError(f"Expected tuple (db_name, collection_name), got: {db_tuple}")
+
+    db_name, collection_name = db_tuple
+    index_name = f"vector_index_{collection_name.lower()}"
+    embedding_model_name = "text-embedding-3-small"
+
+    return get_mongo_vectorstore(
+        db_name=db_name,
+        collection_name=collection_name,
+        index_name=index_name,
+        embedding_model_name=embedding_model_name
+    )
+
+
 
 
 
