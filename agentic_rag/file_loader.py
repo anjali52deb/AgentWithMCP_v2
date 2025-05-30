@@ -9,11 +9,10 @@ Returns: List[Document] objects
 
 
 import os
-import whisper
+import whisper      ## audio and video not yet used
 import docx2txt
 from langchain_community.document_loaders import PyPDFLoader, TextLoader, JSONLoader, UnstructuredHTMLLoader
 from langchain.schema import Document
-
 
 def extract_text_from_file(file_path: str) -> str:
     ext = os.path.splitext(file_path)[1].lower()
@@ -55,12 +54,10 @@ def extract_text_from_file(file_path: str) -> str:
 def _combine_docs(docs: list[Document]) -> str:
     return "\n\n".join(doc.page_content for doc in docs)
 
-
 def _transcribe_audio(file_path: str) -> str:
     model = whisper.load_model("base")  # or "medium" if size allows
     result = model.transcribe(file_path)
     return result["text"].strip()
-
 
 def _parse_srt(file_path: str) -> str:
     with open(file_path, "r", encoding="utf-8") as f:
@@ -74,9 +71,6 @@ def _parse_srt(file_path: str) -> str:
         text_lines.append(line)
 
     return " ".join(text_lines)
-
-
-
 
 def load_file(filepath: str) -> list[Document]:
     ext = os.path.splitext(filepath)[1].lower()

@@ -2,8 +2,8 @@
 
 from agentic_rag.mongo_client import get_mongo_vectorstore
 from agentic_rag.index_router import route_index
-from agentic_rag.llm_wrapper import get_llm_response
-from agentic_rag.retrieve_logger import log_retrieve_event
+from agentic_rag.llm_engine import get_llm_response
+from agentic_rag.logger import log_retrieve_event
 
 def extract_doc_text(doc):
     """Robust method to get document content for prompt construction."""
@@ -33,11 +33,12 @@ def retrieve_from_mongodb(query: str, tag: str = "default"):
         collection_name=collection_name
     )
 
+    #### What is the difference between these two lines?????????????????????
     results = vectorstore.similarity_search(query, k=top_k)
     # results = vectorstore.max_marginal_relevance_search(query, k=top_k, fetch_k=10)
 
-
     print(f"✅ Retrieved {len(results)} chunks from {db_name}.{collection_name}")
+
 
     if results:
         print(f"🧠 Raw doc sample keys: {list(vars(results[0]).keys())}")
@@ -66,5 +67,4 @@ def retrieve_from_mongodb(query: str, tag: str = "default"):
     )
 
     return answer
-
 

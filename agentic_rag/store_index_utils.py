@@ -1,7 +1,7 @@
 # store_index_utils.py
 
-from pymongo import MongoClient
 import os
+from pymongo import MongoClient
 from datetime import datetime
 
 MONGO_URI = os.getenv("MONGODB_ATLAS_URI")

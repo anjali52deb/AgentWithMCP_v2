@@ -1,7 +1,6 @@
 # log_metadata_reader.py
 # log_viewer.py
 
-
 from datetime import datetime
 import argparse
 from pprint import pprint
@@ -22,7 +21,6 @@ def file_hash_already_stored(file_hash: str) -> bool:
     collection = db["store_logs"]
     result = collection.find_one({"file_hash": file_hash})
     return result is not None
-
 
 def get_collection(log_type):
     client = MongoClient(MONGO_URI)

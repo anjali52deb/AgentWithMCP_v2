@@ -6,6 +6,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+
+
 # Load secrets
 MONGODB_ATLAS_PUBLIC_KEY = os.getenv("MONGODB_ATLAS_PUBLIC_KEY")
 MONGODB_ATLAS_PRIVATE_KEY = os.getenv("MONGODB_ATLAS_PRIVATE_KEY")
@@ -58,7 +60,6 @@ if __name__ == "__main__":
     db_name = "rag_agent"
     # collection_list = ["Profile_DB", "History_DB", "Misc_DB"]
     collection_list = ["test"]
-
 
     for collection in collection_list:
         create_vector_index(db_name, collection)

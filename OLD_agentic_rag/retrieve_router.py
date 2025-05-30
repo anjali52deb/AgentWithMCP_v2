@@ -4,7 +4,7 @@ from agentic_rag.intent_classifier import classify_intent
 from agentic_rag.subject_classifier import classify_subject
 from agentic_rag.vectorstore_manager import get_vectorstore_instance
 from agentic_rag.retrieve_logger import log_retrieve_event
-from agentic_rag.db_config import default_fallback_db
+from agentic_rag.XXXdb_config import default_fallback_db
 
 
 def retrieve_answer(query: str):

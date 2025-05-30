@@ -1,4 +1,5 @@
 # subject_classifier.py
+
 from typing import Optional
 from openai import OpenAI
 import os
@@ -12,16 +13,16 @@ SUBJECT_CANDIDATES = [
     "EverythingElse"
 ]
 
-
 def classify_subject(query: str) -> Optional[str]:
     prompt = f"""
-You are a classifier agent. Given a user query, identify which of the following subjects it belongs to:
-{', '.join(SUBJECT_CANDIDATES)}.
+    You are a classifier agent. Given a user query, identify which of the following subjects it belongs to:
+    {', '.join(SUBJECT_CANDIDATES)}.
 
-Query: "{query}"
+    Query: "{query}"
 
-Respond with only the subject name. If none match, return "Unknown".
-"""
+    Respond with only the subject name. If none match, return "Unknown".
+    """
+
     response = client.chat.completions.create(
         model="gpt-4",  # or "gpt-3.5-turbo"
         messages=[{"role": "user", "content": prompt}],

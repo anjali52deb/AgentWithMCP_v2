@@ -16,8 +16,6 @@ def get_llm_response(prompt: str, model_name: str = "gpt-4") -> str:
     else:
         raise ValueError(f"❌ Unsupported model: {model_name}")
 
-
-
 def split_text_into_chunks(text, chunk_size=500, chunk_overlap=50):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size, chunk_overlap=chunk_overlap

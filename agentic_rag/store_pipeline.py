@@ -23,7 +23,7 @@ def store_to_mongodb(file_path, tag=None):
     if subject_tag is None:
         subject_tag = guess_subject_tag(file_name)
 
-    db_name = "agentic_rag"
+    db_name = "agentic_rag"         #### DB NAME IS HARD CODED??????????????????????
     collection_name = subject_tag
     index_name = f"vector_index_{subject_tag.lower()}"
 

@@ -17,7 +17,6 @@ def get_file_hash(file_path: str) -> str:
         file_bytes = f.read()
     return hashlib.md5(file_bytes).hexdigest()
 
-
 def load_and_split_file(filepath, chunk_size=500):
     loader = PyPDFLoader(filepath)
     docs = loader.load()
