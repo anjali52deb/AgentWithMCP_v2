@@ -5,18 +5,26 @@ Tests: STORE, RETRIEVE, Routing, Logging, Deduplication
 """
 
 import os
-from store_pipeline import store_multiple_files
-from retrieve_pipeline import retrieve_with_llm
-from mongo_client import get_mongo_client
-from logger import log_store_event, log_retrieve_event
-from subject_db_mapper import get_db_and_collection_for_subject
-from utils import compute_md5
+from dotenv import load_dotenv
+load_dotenv()
+
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from agentic_rag.store_pipeline import store_multiple_files, compute_md5
+from agentic_rag.retrieve_pipeline import retrieve_from_mongodb
+
+from agentic_rag.mongo_client import get_mongo_client
+from agentic_rag.logger import log_store_event, log_retrieve_event
+from agentic_rag.subject_db_mapper import get_db_and_collection_for_subject
+# from agentic_rag.utils import compute_md5
 
 # === CONFIG ===
 TEST_FILES = [
-    "_Data/employee_policy.pdf",     # Should go to Profile_DB
-    "_Data/finance_policy.pdf",      # Should go to History_DB
-    "_Data/security_guidelines.pdf"  # Should default to Misc_DB
+    "_Data/employee_policy.pdf",
+    "_Data/finance_policy.pdf",
+    "_Data/security_guidelines.pdf",
+    "_Data/random_draft.pdf"  # ✅ Newly added
 ]
 
 TEST_QUERIES = [
@@ -41,7 +49,8 @@ def run_selected_tests():
     print("\n🔎 [Test] RETRIEVE Queries")
     for query in TEST_QUERIES:
         print(f"\n💬 Query: {query}")
-        retrieve_with_llm(query)
+        retrieve_from_mongodb(query, tag="employee") 
+
 
     # --- Test 4: Subject → Collection Mapping
     print("\n📊 [Test] Subject-to-DB Mapping Check")
@@ -55,7 +64,10 @@ def run_selected_tests():
     mongo = get_mongo_client()
     for file_path in TEST_FILES:
         file_hash = compute_md5(file_path)
-        result = mongo["agentic_rag"]["logs"].find_one({"metadata.file_hash": file_hash})
+        # result = mongo["agentic_rag"]["logs"].find_one({"metadata.file_hash": file_hash})
+        result = mongo["agentic_rag_logs"]["store_logs"].find_one({"metadata.file_hash": file_hash})
+
+
         print(f"🔍 Hash: {file_hash} → {'Found' if result else 'Not Found'}")
 
     print("\n✅ All selected tests completed.")

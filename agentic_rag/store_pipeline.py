@@ -8,6 +8,9 @@ from langchain.docstore.document import Document
 
 from agentic_rag.utils import load_and_split_file, guess_subject_tag
 from agentic_rag.mongo_client import get_mongo_vectorstore, log_event, get_mongo_client
+from agentic_rag.config import get_vector_config
+from agentic_rag.subject_db_mapper import get_db_and_collection_for_subject
+from agentic_rag.logger import log_store_event
 
 def compute_md5(file_path):
     with open(file_path, 'rb') as f:
@@ -16,16 +19,43 @@ def compute_md5(file_path):
 def store_to_mongodb(file_path, tag=None):
     file_name = os.path.basename(file_path)
     file_hash = compute_md5(file_path)
-    subject_tag = tag  # NEW: compatible with old logic
+    
+    # subject_tag = tag  # NEW: compatible with old logic
+    subject_tag = None if tag == "auto" else tag
     print(f"\n📥 Starting STORE for file: {file_path} | tag: {subject_tag or 'auto'}")
 
     # Detect subject if not given
     if subject_tag is None:
         subject_tag = guess_subject_tag(file_name)
+        print(f"🔍 Subject guessed from filename: {subject_tag}")
 
-    db_name = "agentic_rag"         #### DB NAME IS HARD CODED??????????????????????
-    collection_name = subject_tag
-    index_name = f"vector_index_{subject_tag.lower()}"
+    # Fetch config from JSON based on subject
+    # vector_config = get_vector_config(subject_tag)
+
+    # Normalize subject_tag before config lookup
+    subject_key = subject_tag.lower()
+
+    # Optional hard override mapping
+    subject_key_map = {
+        "companyprofile": "profile",
+        "transactionhistory": "history",
+        "misc": "misc"
+    }
+    subject_key = subject_key_map.get(subject_key, subject_key)
+    vector_config = get_vector_config(subject_key)
+
+
+    # Apply lowercase to subject_tag if index name is dynamic
+    db_name = vector_config["db_name"]
+    collection_name = vector_config["collection_name"]
+
+    # Use hardcoded pattern with lowercase, OR override from config if present
+    index_name = vector_config.get("index_name") or f"vector_index_{subject_tag.lower()}"
+
+    # Optional safeguard:
+    if "index_name" not in vector_config:
+        print(f"⚠️ Using fallback index name: {index_name}")
+
 
     # Deduplication check
     mongo = get_mongo_client()
@@ -81,12 +111,20 @@ def store_to_mongodb(file_path, tag=None):
     print(f"📎 metadata = {documents[0].metadata}")
 
     # Log
-    log_event({
-        "type": "store",
-        "file": file_name,
-        "chunks": len(documents),
-        "subject": subject_tag,
-    })
+    # log_event({
+    #     "type": "store",
+    #     "file": file_name,
+    #     "chunks": len(documents),
+    #     "subject": subject_tag,
+    # })
+
+    log_store_event(
+        file_name=file_name,
+        chunk_count=len(documents),
+        status="stored",
+        file_hash=file_hash,
+        additional_info={"subject": subject_tag}
+    )
     print(f"📝 Logged STORE event for: {file_name}")
     print("✅ STORE flow completed successfully!")
 
