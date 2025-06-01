@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Page for "vika.ai"</title>
+  <title>Login Page for "vikaa.ai"</title>
   <style>
     body {
       background-color: #efb0b0;
@@ -78,7 +78,7 @@
                     const { error } = await supabase.auth.signInWithOAuth({
                         provider: provider,
                         options: {
-                            redirectTo: "https://ai.story360degree.com/callback.html"
+                            redirectTo: "https://vikaa.ai/callback.html"
                         }
                     });
                     if (error) {

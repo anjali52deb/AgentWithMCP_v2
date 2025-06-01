@@ -422,7 +422,7 @@ async function doLogout() {
   // Regardless of API call success or token presence, clear local storage and redirect
   // This ensures the client-side session is cleared.
   localStorage.clear();
-  window.location.href = "https://ai.story360degree.com/";
+  window.location.href = "https://vikaa.ai/";
 }
 
 // Attach window close/tab close handler

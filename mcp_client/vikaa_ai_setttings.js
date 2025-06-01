@@ -1,4 +1,3 @@
-
 // TO OEPN SETTINGS PAGE =====================================================    
 function closeSettings() {
     document.getElementById('settingsModal').style.display = 'none';
