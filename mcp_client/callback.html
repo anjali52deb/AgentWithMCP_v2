@@ -11,9 +11,6 @@
         <h3>We are currently under Free Subscription for Hobby Project</h3>    
     </div>
     <script>
-        // Guard to prevent double execution
-        // let profileFetched = true;
-
         // Helper: Parse URL fragment params
         function parseFragment() {
             const params = {};
@@ -30,14 +27,6 @@
         const refreshToken = tokens['refresh_token'];
         const expiresIn = tokens['expires_in'];
         const providerToken = tokens['provider_token'];
-
-        // Show a popup with token values for validation
-        // alert(
-        //     "Access Token: " + accessToken + "\n" +
-        //     "Refresh Token: " + refreshToken + "\n" +
-        //     "Expires In: " + expiresIn + "\n" +
-        //     "Provider Token: " + providerToken
-        // );
 
         // Save tokens to localStorage for vika_ai_agent.html
         const authData = { accessToken, refreshToken, expiresIn, providerToken };
@@ -57,8 +46,6 @@
 
         // Fetch user profile from Supabase
         async function fetchUserProfile() {
-            // if (profileFetched) return;
-            // profileFetched = true;
             try {
                 console.log("Access Token:", accessToken);
 
@@ -89,14 +76,6 @@
                     provider: userInfo.app_metadata?.provider || "",
                     avatar_url: userInfo.user_metadata?.avatar_url || ""
                 };
-
-                // Simple popup to validate userPayload values
-                // alert(
-                //     "Email: " + userPayload.email + "\n" +
-                //     "Full Name: " + userPayload.full_name + "\n" +
-                //     "Provider: " + userPayload.provider + "\n" +
-                //     "Avatar URL: " + userPayload.avatar_url
-                // );
 
                 // alert("Email: " + userInfo.email);
                 if (userInfo.email != 'anjali52debnath@gmail.com') {
@@ -143,10 +122,9 @@
                 // alert("your are in 'function trackUser() - catch block'")
                 
             } finally {
-                // Redirect irrespective of trackUser result
                 // (for debug only) 
                 // alert("your are in 'function trackUser() - finally block'")                
-                window.location.href = "vika_ai_agent.html";
+                window.location.href = "vikaa_ai_agent.html";
             }
         }
     </script>
