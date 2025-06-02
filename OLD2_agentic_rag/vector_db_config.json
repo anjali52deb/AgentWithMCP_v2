@@ -16,5 +16,10 @@
     "collection_name": "History_DB",
     "index_name": "vector_index_history",
     "top_k": 3
+  },
+  "logs": {
+    "db_name": "agentic_rag_logs",
+    "store_logs": "store_logs",
+    "retrieve_logs": "retrieve_logs"
   }
 }

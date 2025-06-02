@@ -39,3 +39,19 @@ def get_vectorstore_instance(db_tuple):
         index_name=index_name,
         embedding_model_name=embedding_model_name
     )
+
+# def is_duplicate_file(vectorstore, file_hash: str) -> bool:
+#     """Check if file hash already exists in the vectorstore"""
+#     results = vectorstore.similarity_search(file_hash, k=3)  # small k is fine
+#     for doc in results:
+#         if doc.metadata.get("file_hash") == file_hash:
+#             return True
+#     return False
+
+
+def is_duplicate_file(vectorstore, text: str) -> bool:
+    results = vectorstore.similarity_search(text, k=3)
+    for doc in results:
+        if doc.page_content.strip() == text.strip():
+            return True
+    return False

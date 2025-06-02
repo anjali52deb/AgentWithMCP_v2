@@ -24,7 +24,8 @@ TEST_FILES = [
     "_Data/employee_policy.pdf",
     "_Data/finance_policy.pdf",
     "_Data/security_guidelines.pdf",
-    "_Data/random_draft.pdf"  # ✅ Newly added
+    "_Data/random_draft.pdf",  # ✅ Newly added
+    "_Data/long_test_doc.txt"
 ]
 
 TEST_QUERIES = [
