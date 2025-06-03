@@ -266,3 +266,186 @@ pymongo.errors.BulkWriteError: batch op errors occurred, full error: {'writeErro
 2025-06-03 02:31:42,068 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
 2025-06-03 02:31:42,919 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
 2025-06-03 02:31:43,404 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 10:31:49,847 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:31:50,744 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:31:51,390 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:31:51,984 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:31:52,831 - INFO - \u2705 Stored 4 chunks to DB: Misc_DB
+2025-06-03 10:31:53,486 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 10:46:27,613 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:46:28,318 - INFO - \u2705 Stored 1 chunks to DB: Profile_DB
+2025-06-03 10:46:29,001 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 10:46:32,150 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:46:32,833 - INFO - \u2705 Stored 1 chunks to DB: History_DB
+2025-06-03 10:46:33,574 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 10:46:34,817 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:46:35,466 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 10:46:36,156 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 10:46:37,770 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:46:38,153 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:46:38,757 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:46:39,174 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 10:46:39,906 - INFO - \u2705 Stored 4 chunks to DB: Misc_DB
+2025-06-03 10:46:40,655 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 11:02:11,745 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:02:11,750 - ERROR - \u274c Failed embedding for chunk 0: name 'file_name' is not defined
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 163, in embed_chunks
+    "file_name": file_name,
+                 ^^^^^^^^^
+NameError: name 'file_name' is not defined
+2025-06-03 11:02:14,077 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:02:14,080 - ERROR - \u274c Failed embedding for chunk 0: name 'file_name' is not defined
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 163, in embed_chunks
+    "file_name": file_name,
+                 ^^^^^^^^^
+NameError: name 'file_name' is not defined
+2025-06-03 11:02:15,705 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:02:15,713 - ERROR - \u274c Failed embedding for chunk 0: name 'file_name' is not defined
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 163, in embed_chunks
+    "file_name": file_name,
+                 ^^^^^^^^^
+NameError: name 'file_name' is not defined
+2025-06-03 11:02:18,728 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:02:18,730 - ERROR - \u274c Failed embedding for chunk 0: name 'file_name' is not defined
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 163, in embed_chunks
+    "file_name": file_name,
+                 ^^^^^^^^^
+NameError: name 'file_name' is not defined
+2025-06-03 11:02:19,495 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:02:19,498 - ERROR - \u274c Failed embedding for chunk 1: name 'file_name' is not defined
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 163, in embed_chunks
+    "file_name": file_name,
+                 ^^^^^^^^^
+NameError: name 'file_name' is not defined
+2025-06-03 11:02:20,095 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:02:20,098 - ERROR - \u274c Failed embedding for chunk 2: name 'file_name' is not defined
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 163, in embed_chunks
+    "file_name": file_name,
+                 ^^^^^^^^^
+NameError: name 'file_name' is not defined
+2025-06-03 11:02:21,276 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:02:21,279 - ERROR - \u274c Failed embedding for chunk 3: name 'file_name' is not defined
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 163, in embed_chunks
+    "file_name": file_name,
+                 ^^^^^^^^^
+NameError: name 'file_name' is not defined
+2025-06-03 11:07:38,512 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:07:39,284 - INFO - \u2705 Stored 1 chunks to DB: Profile_DB
+2025-06-03 11:07:39,911 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 11:07:42,083 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:07:43,193 - INFO - \u2705 Stored 1 chunks to DB: History_DB
+2025-06-03 11:07:44,136 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 11:07:45,833 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:07:46,786 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 11:07:48,457 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 11:07:50,851 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:07:51,269 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:07:51,780 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:07:52,430 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 11:07:54,205 - INFO - \u2705 Stored 4 chunks to DB: Misc_DB
+2025-06-03 11:07:55,667 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:49:12,210 - ERROR - \u274c Failed embedding for chunk 0: 'Model' object has no attribute 'embed_content_batch'
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 158, in embed_chunks
+    embedding = embedding_fn(chunk)
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 362, in <lambda>
+    embedding_fn = lambda x: embedding_model.embed_documents([x])[0]
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "E:\AgentWithMCP_v2\agentic_rag\gemini_embedder.py", line 15, in embed_documents
+    response = self.model.embed_content_batch(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Model' object has no attribute 'embed_content_batch'
+2025-06-03 12:49:13,801 - ERROR - \u274c Failed embedding for chunk 0: 'Model' object has no attribute 'embed_content_batch'
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 158, in embed_chunks
+    embedding = embedding_fn(chunk)
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 362, in <lambda>
+    embedding_fn = lambda x: embedding_model.embed_documents([x])[0]
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "E:\AgentWithMCP_v2\agentic_rag\gemini_embedder.py", line 15, in embed_documents
+    response = self.model.embed_content_batch(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Model' object has no attribute 'embed_content_batch'
+2025-06-03 12:49:14,884 - ERROR - \u274c Failed embedding for chunk 0: 'Model' object has no attribute 'embed_content_batch'
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 158, in embed_chunks
+    embedding = embedding_fn(chunk)
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 362, in <lambda>
+    embedding_fn = lambda x: embedding_model.embed_documents([x])[0]
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "E:\AgentWithMCP_v2\agentic_rag\gemini_embedder.py", line 15, in embed_documents
+    response = self.model.embed_content_batch(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Model' object has no attribute 'embed_content_batch'
+2025-06-03 12:51:35,036 - ERROR - \u274c Failed embedding for chunk 0: 'Model' object has no attribute 'embed_content'
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 158, in embed_chunks
+    embedding = embedding_fn(chunk)
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 362, in <lambda>
+    embedding_fn = lambda x: embedding_model.embed_documents([x])[0]
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "E:\AgentWithMCP_v2\agentic_rag\gemini_embedder.py", line 18, in embed_documents
+    response = self.model.embed_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Model' object has no attribute 'embed_content'
+2025-06-03 12:51:36,301 - ERROR - \u274c Failed embedding for chunk 0: 'Model' object has no attribute 'embed_content'
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 158, in embed_chunks
+    embedding = embedding_fn(chunk)
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 362, in <lambda>
+    embedding_fn = lambda x: embedding_model.embed_documents([x])[0]
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "E:\AgentWithMCP_v2\agentic_rag\gemini_embedder.py", line 18, in embed_documents
+    response = self.model.embed_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Model' object has no attribute 'embed_content'
+2025-06-03 12:51:37,422 - ERROR - \u274c Failed embedding for chunk 0: 'Model' object has no attribute 'embed_content'
+Traceback (most recent call last):
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 158, in embed_chunks
+    embedding = embedding_fn(chunk)
+  File "E:\AgentWithMCP_v2\agentic_rag\store_pipeline.py", line 362, in <lambda>
+    embedding_fn = lambda x: embedding_model.embed_documents([x])[0]
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "E:\AgentWithMCP_v2\agentic_rag\gemini_embedder.py", line 18, in embed_documents
+    response = self.model.embed_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Model' object has no attribute 'embed_content'
+2025-06-03 12:52:46,381 - INFO - \u2705 Stored 1 chunks to DB: Profile_DB
+2025-06-03 12:52:47,046 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:52:48,894 - INFO - \u2705 Stored 1 chunks to DB: History_DB
+2025-06-03 12:52:49,570 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:52:50,908 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 12:52:51,646 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:55:30,627 - INFO - \u2705 Stored 1 chunks to DB: Profile_DB
+2025-06-03 12:55:33,423 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:55:35,643 - INFO - \u2705 Stored 1 chunks to DB: History_DB
+2025-06-03 12:55:36,308 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:55:37,982 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 12:55:38,637 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:57:05,868 - INFO - \u2705 Stored 1 chunks to DB: Profile_DB
+2025-06-03 12:57:06,725 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:57:09,596 - INFO - \u2705 Stored 1 chunks to DB: History_DB
+2025-06-03 12:57:10,255 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:57:12,641 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 12:57:13,415 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:59:25,820 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 12:59:26,886 - INFO - \u2705 Stored 1 chunks to DB: Profile_DB
+2025-06-03 12:59:27,527 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:59:29,898 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 12:59:30,752 - INFO - \u2705 Stored 1 chunks to DB: History_DB
+2025-06-03 12:59:31,387 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 12:59:33,231 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 12:59:33,959 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 12:59:34,540 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 13:01:27,075 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 13:01:27,944 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 13:03:01,673 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 13:03:02,371 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 13:03:03,070 - INFO - \U0001f4c4 Log written with full traceability.

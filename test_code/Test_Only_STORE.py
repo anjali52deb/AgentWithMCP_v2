@@ -14,14 +14,6 @@ TEST_FILES = [
     "misc_notes.txt"
 ]
 
-# TEST_FILES = [
-#     "profile.pdf",
-#     "history.pdf",
-#     "security_guidelines.pdf"
-#     # "random_draft.pdf",  # ✅ Newly added
-#     # "long_test_doc.txt"
-# ]
-
 USER_ID = "test_user"
 BASE_DIR = "./_Data"
 CONFIG_PATH = "./agentic_rag/mongo_config.json"

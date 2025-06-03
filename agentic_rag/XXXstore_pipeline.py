@@ -25,12 +25,6 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from dotenv import load_dotenv
 
-from agentic_rag.embedding_factory import get_embedding_model, EmbeddingProvider
-
-def load_embedding_model():
-    provider = os.getenv("EMBEDDING_PROVIDER", "gpt").lower()
-    return get_embedding_model(provider)
-
 # ============================
 # 🔐 Load environment
 # ============================
@@ -40,7 +34,7 @@ if not os.getenv("OPENAI_API_KEY"):
     raise EnvironmentError("❌ OPENAI_API_KEY not set in .env")
 
 # ============================
-# 🪵 Logging setup --- need to block this code later for production
+# 🪵 Logging setup
 # ============================
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 log_to_file = os.getenv("LOG_TO_FILE", "false").lower() == "true"
@@ -141,6 +135,7 @@ def chunk_text(text: str, chunk_size: int = 500, overlap: int = 100) -> list:
 # ============================================
 # 🧠 Step 4: Embedding (No Classification)
 # ============================================
+
 def embed_chunks(chunks: list, embedding_fn, subject: str, metadata=None) -> list:
     print("🧠 Embedding chunks...")
     results = []
@@ -205,25 +200,10 @@ def store_vectors_to_db(embedded_chunks: list, config: dict, subject: str):
 # ============================================
 # 📝 Step 6: Write Log Metadata
 # ============================================
-# ============================================
-# 📝 Step 6: Write Log Metadata
-# ============================================
-def log_store_metadata(
-    log_config: dict,
-    metadata: dict,
-    subject: str,
-    status: str,
-    chunk_count: int,
-    chunk_size: int,
-    chunk_overlap: int,
-    subject_source: str,
-    embedding_model: str  # ✅ new argument
-):
+def log_store_metadata(log_config: dict, metadata: dict, subject: str, status: str, chunk_count: int, chunk_size: int, chunk_overlap: int, subject_source: str):
     print(f"📝 Logging store metadata for file: {metadata['file_name']}")
-    
     client = get_mongo_client()
     log_coll = client[log_config['db_name']][log_config['store_logs']]
-    pipeline_version = os.getenv("STORE_PIPELINE_VERSION", "v1.0")
     log_entry = metadata.copy()
     log_entry.update({
         "subject": subject,
@@ -231,34 +211,12 @@ def log_store_metadata(
         "chunk_count": chunk_count,
         "chunk_size": chunk_size,
         "chunk_overlap": chunk_overlap,
-        "embedding_model": embedding_model, # ✅ dynamic value now
+        "embedding_model": "OpenAIEmbeddings",
         "classifier_model": "None",
-        "store_intent_source": subject_source,
-        "store_pipeline_version": pipeline_version  # ✅ New version trace field
+        "store_intent_source": subject_source
     })
-
     log_coll.insert_one(log_entry)
     logging.info("📄 Log written with full traceability.")
-
-
-
-# def log_store_metadata(log_config: dict, metadata: dict, subject: str, status: str, chunk_count: int, chunk_size: int, chunk_overlap: int, subject_source: str):
-#     print(f"📝 Logging store metadata for file: {metadata['file_name']}")
-#     client = get_mongo_client()
-#     log_coll = client[log_config['db_name']][log_config['store_logs']]
-#     log_entry = metadata.copy()
-#     log_entry.update({
-#         "subject": subject,
-#         "status": status,
-#         "chunk_count": chunk_count,
-#         "chunk_size": chunk_size,
-#         "chunk_overlap": chunk_overlap,
-#         "embedding_model": "OpenAIEmbeddings",
-#         "classifier_model": "None",
-#         "store_intent_source": subject_source
-#     })
-#     log_coll.insert_one(log_entry)
-#     logging.info("📄 Log written with full traceability.")
 
 
 # ============================================
@@ -351,21 +309,10 @@ def store_pipeline(file_path: str, user_id: str, config_path="mongo_config.json"
             print("❌ No chunks created. Aborting.")
             return
 
-        # embedding_model = OpenAIEmbeddings()
-        embedding_model = load_embedding_model()
-        embedding_model_name = embedding_model.__class__.__name__
-        print(f"🔁 Using embedding model: {embedding_model_name}")
-
-
-        # ✅ Dynamically pick embedding function
-        if hasattr(embedding_model, "embed_documents"):
-            embedding_fn = lambda x: embedding_model.embed_documents([x])[0]
-        else:
-            embedding_fn = embedding_model.embed_query
-
+        embedding_model = OpenAIEmbeddings()
         embedded = embed_chunks(
             chunks,
-            embedding_fn=embedding_fn,
+            embedding_fn=embedding_model.embed_query,
             subject=subject,
             metadata=metadata
         )
@@ -376,17 +323,6 @@ def store_pipeline(file_path: str, user_id: str, config_path="mongo_config.json"
 
         store_vectors_to_db(embedded, config, subject)
 
-        # log_store_metadata(
-        #     log_config,
-        #     metadata,
-        #     subject,
-        #     status="completed",
-        #     chunk_count=len(embedded),
-        #     chunk_size=chunk_size,
-        #     chunk_overlap=chunk_overlap,
-        #     subject_source=subject_source
-        # )
-
         log_store_metadata(
             log_config,
             metadata,
@@ -395,11 +331,8 @@ def store_pipeline(file_path: str, user_id: str, config_path="mongo_config.json"
             chunk_count=len(embedded),
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap,
-            subject_source=subject_source,
-            embedding_model=embedding_model_name  # ✅ new dynamic input
+            subject_source=subject_source
         )
-
-
 
         print("✅ Pipeline complete for:", metadata["file_name"])
 
