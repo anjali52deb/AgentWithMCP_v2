@@ -1,7 +1,8 @@
 # retriever_factory.py
 
 from langchain_mongodb import MongoDBAtlasVectorSearch
-from langchain_community.embeddings import OpenAIEmbeddings
+# from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 from pymongo import MongoClient
@@ -41,18 +42,27 @@ def get_retriever_model(subject: str, provider: str):
         raise ValueError(f"Unsupported provider: {provider}")
 
     # Build vector retriever
+
     # vectorstore = MongoDBAtlasVectorSearch(
     #     collection=collection,
     #     embedding=embedding_model,
-    #     index_name=index_name
-    # )
+    #     index_name=index_name,
+    #     text_key="chunk_text"  # ✅ Needed for matching
 
-    vectorstore = MongoDBAtlasVectorSearch(
-        collection=collection,
-        embedding=embedding_model,
-        index_name=index_name,
-        text_key="chunk_text"  # ✅ Needed for matching
-)
-
+    try:
+        vectorstore = MongoDBAtlasVectorSearch(
+            collection=collection,
+            embedding=embedding_model,
+            index_name=index_name,
+            text_key="chunk_text"
+        )
+    except Exception as e:
+        if "indexed with" in str(e) and "queried with" in str(e):
+            raise RuntimeError(
+                f"❌ LLM embedding mismatch: The index '{index_name}' expects a different embedding dimension. "
+                f"You're likely using the wrong embedding provider for this index.\n\n💡 Tip: Try switching to the correct provider (e.g., 'gpt' or 'gemini')."
+            ) from e
+        else:
+            raise  # propagate unrelated errors
 
     return vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 5})

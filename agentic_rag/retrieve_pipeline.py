@@ -1,13 +1,12 @@
 # retrieve_pipeline.py
 
-
 import os
 from agentic_rag.retriever_factory import get_retriever_model
 from agentic_rag.mongo_utils import load_mongo_config
-from agentic_rag.log_utils import log_retrieve_event, purge_old_logs
+from agentic_rag.log_utils import log_retrieve_event, purge_old_logs, clean_logs_once_per_day
+
 from datetime import timedelta, datetime
 from langchain_openai import ChatOpenAI  # ✅ Updated import
-
 
 def retrieve_answer(user_query: str, subject_hint: str = None):
     # 1. Load config and setup
@@ -29,13 +28,22 @@ def retrieve_answer(user_query: str, subject_hint: str = None):
     # 3. Get retriever (handles index, collection internally)
     retriever = get_retriever_model(subject, provider)
 
+
     # 4. Retrieve documents from vector DB
-    matched_docs = retriever.get_relevant_documents(user_query)
+    try:
+        matched_docs = retriever.invoke(user_query)
+    except Exception as e:
+        if "indexed with" in str(e) and "queried with" in str(e):
+            raise RuntimeError(
+                f"❌ LLM embedding mismatch: This index expects a different embedding dimension.\n\n"
+                f"💡 Try switching to the correct EMBEDDING_PROVIDER (e.g., 'gpt' or 'gemini') that matches how the data was stored."
+            ) from e
+        else:
+            raise
 
     print(f"[DEBUG] Matched {len(matched_docs)} docs")
     for doc in matched_docs:
         print("-", doc.page_content[:100])
-
 
     # 5. Synthesize final answer
     llm = ChatOpenAI(model_name="gpt-4", temperature=0)
@@ -46,15 +54,14 @@ def retrieve_answer(user_query: str, subject_hint: str = None):
 
     return final_response
 
-
 def detect_subject_from_query(query: str, hint: str = None, config: dict = None):
     if hint:
         return hint.lower()
-
     lowered = query.lower()
 
     if "history" in lowered:
         return "history"
+
     elif "profile" in lowered:
         return "profile"
     
@@ -66,10 +73,6 @@ def detect_subject_from_query(query: str, hint: str = None, config: dict = None)
         return "default"
     else:
         return "unknown"
-
-
-
-
 
 def synthesize_with_llm(query: str, docs, llm):
     context = "\n\n".join([doc.page_content for doc in docs])
@@ -87,7 +90,8 @@ def synthesize_with_llm(query: str, docs, llm):
 
 
 def log_retrieve_action(query, subject, num_results, provider):
-    cutoff_time = datetime.utcnow() - timedelta(days=2)
-    purge_old_logs(cutoff_time)
+    clean_logs_once_per_day()
+
     log_retrieve_event(query, subject, num_results, provider)
     print(f"[RETRIEVE] Logged + Cleaned | Query='{query}' | Subject={subject} | Matches={num_results} | Provider={provider}")
+
