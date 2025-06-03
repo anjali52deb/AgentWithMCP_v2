@@ -28,7 +28,7 @@ class GeminiEmbeddings:
         response = genai.embed_content(
             model=self.model.name,
             content=text,
-            task_type="retrieval_query",
-            title="Query"
+            task_type="retrieval_document",  # ✅ FIXED
+            title=None  # or omit entirely
         )
         return response["embedding"]

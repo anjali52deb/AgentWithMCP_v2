@@ -449,3 +449,16 @@ AttributeError: 'Model' object has no attribute 'embed_content'
 2025-06-03 13:03:01,673 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
 2025-06-03 13:03:02,371 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
 2025-06-03 13:03:03,070 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 15:32:53,548 - INFO - \u2705 Stored 1 chunks to DB: Profile_DB
+2025-06-03 15:32:54,280 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 15:32:56,917 - INFO - \u2705 Stored 1 chunks to DB: History_DB
+2025-06-03 15:32:57,566 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 15:32:59,710 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 15:33:00,157 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 15:33:02,507 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 15:33:03,076 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 15:33:05,013 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 15:33:05,549 - INFO - \U0001f4c4 Log written with full traceability.
+2025-06-03 17:09:04,857 - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-06-03 17:09:05,398 - INFO - \u2705 Stored 1 chunks to DB: Misc_DB
+2025-06-03 17:09:06,849 - INFO - \U0001f4c4 Log written with full traceability.

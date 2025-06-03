@@ -19,12 +19,9 @@ from agentic_rag.store_pipeline import store_pipeline
 
 # ✅ Test file paths (use relative paths inside '_Data' folder)
 TEST_FILES = [
-    "profile_testfile.txt",
-    "history_transactions.csv",
-    "misc_notes.txt",
-    "history.pdf",
-    "Product_FAQ.txt"
+    "test_mongo_index_config.txt"
 ]
+
 
 USER_ID = "test_user"
 BASE_DIR = "./_Data"
